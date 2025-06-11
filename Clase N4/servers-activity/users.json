@@ -1,0 +1,36 @@
+[{
+    "id": 1,
+        "name": "John Doe",
+        "age": 25,
+        "email": "john.doe@example.com",
+        "gender": "male"
+    },
+    {
+        "id": 2,
+        "name": "Jane Doe",
+        "age": 26,
+        "email": "jane.doe@example.com",
+        "gender": "female"
+    },
+    {
+        "id": 3,
+        "name": "John Smith",
+        "age": 30,
+        "email": "john.smith@example.com",
+        "gender": "male"
+    },
+    {
+        "id": 4,
+        "name": "Jane Smith",
+        "age": 31,
+        "email": "jane.smith@example.com",
+        "gender": "female"
+    },
+    {
+        "id": 5,
+        "name": "John Doe",
+        "age": 25,
+        "email": "john.doe@example.com",
+        "gender": "male"
+    }
+]
