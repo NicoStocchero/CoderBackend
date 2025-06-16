@@ -1,16 +1,16 @@
 {
   "name": "coderbackend",
   "version": "1.0.0",
-  "main": "index.js",
   "type": "module",
   "scripts": {
-    "dev": "nodemon server.js",
+    "start": "node src/app.js",
+    "dev": "nodemon src/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "author": "Nicolás Stocchero",
+  "license": "MIT",
+  "description": "API de productos y carritos - Primera entrega Coderhouse",
   "dependencies": {
     "express": "^5.1.0",
     "moment": "^2.30.1",
