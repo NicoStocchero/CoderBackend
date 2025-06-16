@@ -1,6 +1,6 @@
 # API de Productos y Carritos 🛒
 
-Este proyecto corresponde a la **Primera Entrega del curso de Backend en Node.js (Coderhouse)**. Se trata de un servidor Express que permite gestionar productos y carritos con persistencia de archivos JSON.
+Este proyecto corresponde a la **Programación Backend I: Desarrollo Avanzado de Backend (Coderhouse)**. Se trata de un servidor que permite gestionar productos y carritos con persistencia de archivos JSON.
 
 ---
 
