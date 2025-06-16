@@ -30,7 +30,7 @@ CoderBackend/
 1. Clonar el repositorio:
 
 ```bash
-git git clone https://github.com/nicolas-stocchero/CoderBackend
+git git clone https://github.com/NicoStocchero/CoderBackend
 cd CoderBackend
 ```
 
