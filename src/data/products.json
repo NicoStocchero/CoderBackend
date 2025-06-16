@@ -1,0 +1,22 @@
+[
+  {
+    "id": 1,
+    "title": "Paleta Pro Control",
+    "description": "Paleta de pádel profesional con gran control",
+    "price": 220000,
+    "status": true,
+    "stock": 15,
+    "category": "paletas",
+    "thumbnails": ["images/paleta1.png"]
+  },
+  {
+    "id": 2,
+    "title": "Zapatillas Match Play",
+    "description": "Zapatillas especiales para pádel indoor",
+    "price": 150000,
+    "status": true,
+    "stock": 30,
+    "category": "calzado",
+    "thumbnails": ["images/zapatillas1.png"]
+  }
+]
