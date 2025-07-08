@@ -1,0 +1,14 @@
+<!-- Contenedor principal de la vista estática -->
+<div class="container">
+  <h1>Lista de productos estáticos</h1>
+
+  <!-- Lista de productos estáticos -->
+  <ul class="product-list">
+    {{#each products}}
+      <li class="product-item">
+        <strong>{{title}}</strong>
+        <span>${{price}}</span>
+      </li>
+    {{/each}}
+  </ul>
+</div>

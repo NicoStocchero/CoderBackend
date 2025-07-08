@@ -1,0 +1,43 @@
+<!-- Estilos de Font Awesome -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<!-- Contenedor principal de la vista en tiempo real -->
+<div class="container">
+  <h1>Productos en tiempo real</h1>
+
+  <!-- Lista de productos -->
+  <ul id="productList" class="product-list">
+    {{#each products}}
+      <li class="product-item">
+        <strong>{{title}}</strong>
+        <span>${{price}}</span>
+      </li>
+    {{/each}}
+  </ul>
+
+  <!-- Botón para eliminar el último producto -->
+  <div class="button-container">
+    <button id="deleteLastBtn"><i class="fa-solid fa-trash"></i>
+      Eliminar último producto</button>
+  </div>
+
+  <!-- Formulario para agregar un nuevo producto -->
+  <div class="form-container">
+    <h2>Agregar nuevo producto</h2>
+    <form id="productForm">
+      <input type="text" name="title" placeholder="Título" required />
+      <input type="number" name="price" placeholder="Precio" required />
+      <button type="submit"><i class="fa-solid fa-plus"></i> Agregar</button>
+    </form>
+
+  </div>
+</div>
+
+<!-- Script para la conexión con Socket.io -->
+<script src="/socket.io/socket.io.js"></script>
+
+<!-- Script para la funcionalidad en tiempo real -->
+<script src="/js/realtime.js"></script>
