@@ -7,7 +7,9 @@
     "status": true,
     "stock": 15,
     "category": "paletas",
-    "thumbnails": ["images/paleta1.png"]
+    "thumbnails": [
+      "images/paleta1.png"
+    ]
   },
   {
     "id": 2,
@@ -17,6 +19,235 @@
     "status": true,
     "stock": 30,
     "category": "calzado",
-    "thumbnails": ["images/zapatillas1.png"]
+    "thumbnails": [
+      "images/zapatillas1.png"
+    ]
+  },
+  {
+    "id": 3,
+    "title": "Paleta Ultra Power",
+    "description": "Paleta ligera para golpes potentes y rápidos",
+    "price": 250000,
+    "status": true,
+    "stock": 12,
+    "category": "paletas",
+    "thumbnails": [
+      "images/paleta2.png"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "Bolso Premium Tour",
+    "description": "Bolso amplio con compartimento térmico",
+    "price": 95000,
+    "status": true,
+    "stock": 20,
+    "category": "accesorios",
+    "thumbnails": [
+      "images/bolso1.png"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "Muñequeras Flex Dry",
+    "description": "Muñequeras absorbentes de secado rápido",
+    "price": 15000,
+    "status": true,
+    "stock": 50,
+    "category": "accesorios",
+    "thumbnails": [
+      "images/munequeras1.png"
+    ]
+  },
+  {
+    "id": 6,
+    "title": "Grip Antideslizante Pro",
+    "description": "Grip de alta adherencia para mayor control",
+    "price": 8000,
+    "status": true,
+    "stock": 100,
+    "category": "accesorios",
+    "thumbnails": [
+      "images/grip1.png"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "Short Match Dry",
+    "description": "Short ligero con tecnología de secado rápido",
+    "price": 35000,
+    "status": true,
+    "stock": 40,
+    "category": "indumentaria",
+    "thumbnails": [
+      "images/short1.png"
+    ]
+  },
+  {
+    "id": 8,
+    "title": "Camiseta Air Pro",
+    "description": "Camiseta transpirable para máximo confort",
+    "price": 40000,
+    "status": true,
+    "stock": 35,
+    "category": "indumentaria",
+    "thumbnails": [
+      "images/camiseta1.png"
+    ]
+  },
+  {
+    "id": 9,
+    "title": "Tubo de Pelotas Max Spin",
+    "description": "Pelotas oficiales con rebote consistente",
+    "price": 12000,
+    "status": true,
+    "stock": 80,
+    "category": "pelotas",
+    "thumbnails": [
+      "images/pelotas1.png"
+    ]
+  },
+  {
+    "id": 10,
+    "title": "Paleta Carbon Pro",
+    "description": "Paleta fabricada 100% en carbono para expertos",
+    "price": 280000,
+    "status": true,
+    "stock": 10,
+    "category": "paletas",
+    "thumbnails": [
+      "images/paleta3.png"
+    ]
+  },
+  {
+    "id": 11,
+    "title": "Gorra Sport Dry Fit",
+    "description": "Gorra ultra ligera y ventilada",
+    "price": 18000,
+    "status": true,
+    "stock": 60,
+    "category": "accesorios",
+    "thumbnails": [
+      "images/gorra1.png"
+    ]
+  },
+  {
+    "id": 12,
+    "title": "Paletero Compact Line",
+    "description": "Paletero compacto para transportar lo esencial",
+    "price": 65000,
+    "status": true,
+    "stock": 18,
+    "category": "accesorios",
+    "thumbnails": [
+      "images/paletero1.png"
+    ]
+  },
+  {
+    "id": 13,
+    "title": "Chaqueta Wind Breaker",
+    "description": "Chaqueta cortaviento ligera y resistente",
+    "price": 80000,
+    "status": true,
+    "stock": 25,
+    "category": "indumentaria",
+    "thumbnails": [
+      "images/chaqueta1.png"
+    ]
+  },
+  {
+    "id": 14,
+    "title": "Medias Comfort Pro",
+    "description": "Medias acolchonadas para máximo confort",
+    "price": 9000,
+    "status": true,
+    "stock": 70,
+    "category": "indumentaria",
+    "thumbnails": [
+      "images/medias1.png"
+    ]
+  },
+  {
+    "id": 15,
+    "title": "Zapatillas Speed Court",
+    "description": "Zapatillas con suela antideslizante y liviana",
+    "price": 165000,
+    "status": true,
+    "stock": 28,
+    "category": "calzado",
+    "thumbnails": [
+      "images/zapatillas2.png"
+    ]
+  },
+  {
+    "id": 16,
+    "title": "Camiseta Training Elite",
+    "description": "Camiseta técnica para entrenamientos intensos",
+    "price": 42000,
+    "status": true,
+    "stock": 30,
+    "category": "indumentaria",
+    "thumbnails": [
+      "images/camiseta2.png"
+    ]
+  },
+  {
+    "id": 17,
+    "title": "Paleta Soft Control",
+    "description": "Paleta con núcleo blando para mejor control",
+    "price": 210000,
+    "status": true,
+    "stock": 20,
+    "category": "paletas",
+    "thumbnails": [
+      "images/paleta4.png"
+    ]
+  },
+  {
+    "id": 18,
+    "title": "Vibora Protector Tape",
+    "description": "Cinta protectora para marco de paleta",
+    "price": 5000,
+    "status": true,
+    "stock": 90,
+    "category": "accesorios",
+    "thumbnails": [
+      "images/cinta1.png"
+    ]
+  },
+  {
+    "id": 19,
+    "title": "Short Pro Performance",
+    "description": "Short con tejido ultraligero y bolsillos reforzados",
+    "price": 37000,
+    "status": true,
+    "stock": 32,
+    "category": "indumentaria",
+    "thumbnails": [
+      "images/short2.png"
+    ]
+  },
+  {
+    "id": 20,
+    "title": "Gorra Summer Flex",
+    "description": "Gorra flexible ideal para climas calurosos",
+    "price": 16000,
+    "status": true,
+    "stock": 50,
+    "category": "accesorios",
+    "thumbnails": [
+      "images/gorra2.png"
+    ]
+  },
+  {
+    "id": 21,
+    "title": "1231",
+    "description": "",
+    "code": "",
+    "price": 123123,
+    "status": true,
+    "stock": 0,
+    "category": "",
+    "thumbnails": []
   }
 ]
