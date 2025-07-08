@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "type": "module",
   "scripts": {
-    "start": "node src/app.js",
-    "dev": "nodemon src/app.js",
+    "start": "node app.js",
+    "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -13,11 +13,13 @@
   "description": "API de productos y carritos - Primera entrega Coderhouse",
   "dependencies": {
     "express": "^5.1.0",
+    "express-handlebars": "^8.0.3",
     "moment": "^2.30.1",
-    "nodemon": "^3.1.10"
+    "socket.io": "^4.8.1"
   },
   "devDependencies": {
     "eslint": "^9.27.0",
+    "nodemon": "^3.1.10",
     "prettier": "^3.5.3"
   }
 }
