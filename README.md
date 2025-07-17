@@ -1,17 +1,21 @@
 # API de Productos y Carritos 🛒
 
-Este proyecto corresponde a la **Programación Backend I: Desarrollo Avanzado de Backend (Coderhouse) - Segunda Entrega**. Se trata de un servidor avanzado que permite gestionar productos y carritos con persistencia de archivos JSON, vistas dinámicas y actualizaciones en tiempo real.
+Este proyecto corresponde a la **Entrega Final de Programación Backend I (Coderhouse)**.  
+Servidor avanzado que permite gestionar productos y carritos con persistencia en **MongoDB**, vistas dinámicas, paginación profesional, sesiones y gestión de carritos real como en un e-commerce moderno.
 
 ---
 
 ## 🆕 Nuevas funcionalidades
 
-✅ **Handlebars** - Motor de plantillas para vistas dinámicas  
-✅ **Socket.io** - Actualizaciones en tiempo real  
-✅ **Variables de entorno** - Configuración segura con dotenv  
-✅ **Arquitectura mejorada** - Separación de responsabilidades  
-✅ **Configuración robusta** - Manejo profesional de errores  
-✅ **Vistas web** - Interfaz para gestionar productos
+✅ **MongoDB como persistencia principal**  
+✅ **Consultas profesionales:** Filtros, paginación y orden en productos  
+✅ **Carrito profesional:** actualizar, vaciar, eliminar y populate  
+✅ **Carrito único por usuario (sessions)**  
+✅ **Vistas web modernas:** Productos, detalle y carrito  
+✅ **Handlebars:** Vistas dinámicas y limpias  
+✅ **Socket.io:** Actualizaciones en tiempo real  
+✅ **Variables de entorno:** dotenv  
+✅ **Arquitectura profesional:** Código modular y documentado
 
 ---
 
@@ -21,27 +25,16 @@ Este proyecto corresponde a la **Programación Backend I: Desarrollo Avanzado de
 CoderBackend/
 ├── src/
 │   ├── routes/
-│   │   ├── products.router.js
-│   │   ├── carts.router.js
-│   │   └── views.router.js          🆕
-│   ├── managers/
-│   │   ├── ProductManager.js
-│   │   └── CartManager.js
-│   ├── views/                       🆕
-│   │   ├── layouts/
-│   │   └── [plantillas handlebars]
-│   ├── config/                      🆕
-│   │   └── database.js
-│   ├── data/
-│   │   ├── products.json
-│   │   └── carts.json
-│   └── models/                      🆕
-├── public/                          🆕
+│   ├── controllers/
+│   ├── models/
+│   ├── views/
+│   ├── middlewares/
+│   └── config/
+├── public/
 │   ├── css/
 │   ├── js/
 │   └── images/
-├── .env                             🆕
-├── .env.example                     🆕
+├── .env
 ├── .gitignore
 ├── package.json
 ├── app.js
@@ -90,10 +83,11 @@ El servidor estará disponible en: **http://localhost:8080**
 
 ## 🌐 Nuevas rutas web
 
-| Ruta                  | Descripción                                    |
-| --------------------- | ---------------------------------------------- |
-| **/**                 | Vista principal con listado de productos       |
-| **/realtimeproducts** | Vista con productos en tiempo real (Socket.io) |
+| Ruta               | Descripción                                         |
+| ------------------ | --------------------------------------------------- |
+| **/products**      | Listado de productos con paginación, filtros, orden |
+| **/products/:pid** | Detalle de producto y botón “Agregar al carrito”    |
+| **/carts/:cid**    | Vista de carrito con productos populados            |
 
 ---
 
@@ -101,33 +95,27 @@ El servidor estará disponible en: **http://localhost:8080**
 
 ---
 
-## 🔹 Productos `/api/products`
+### 🔹 Productos `/api/products`
 
-| Método | Endpoint | Descripción                | Query Params |
-| ------ | -------- | -------------------------- | ------------ |
-| GET    | `/`      | Listar todos los productos | `?limit=10`  |
-| GET    | `/:pid`  | Obtener un producto por ID | -            |
-| POST   | `/`      | Agregar un nuevo producto  | -            |
-| PUT    | `/:pid`  | Actualizar un producto     | -            |
-| DELETE | `/:pid`  | Eliminar un producto       | -            |
+| Método | Endpoint | Descripción                                      | Query Params                     |
+| ------ | -------- | ------------------------------------------------ | -------------------------------- |
+| GET    | `/`      | Listar productos con filtros, paginación y orden | `limit`, `page`, `sort`, `query` |
+| GET    | `/:pid`  | Obtener un producto por ID                       | -                                |
+| POST   | `/`      | Agregar un nuevo producto                        | -                                |
+| PUT    | `/:pid`  | Actualizar un producto                           | -                                |
+| DELETE | `/:pid`  | Eliminar un producto                             | -                                |
 
-💡 **Los productos se guardan en `products.json` y contienen:**
+### 🔹 Carritos `/api/carts`
 
-`id`, `title`, `description`, `code`, `price`, `status`, `stock`, `category`, `thumbnails[]`
-
----
-
-## 🔹 Carritos `/api/carts`
-
-| Método | Endpoint             | Descripción                                        |
-| ------ | -------------------- | -------------------------------------------------- |
-| POST   | `/`                  | Crear un nuevo carrito vacío                       |
-| GET    | `/:cid`              | Ver los productos de un carrito específico         |
-| POST   | `/:cid/product/:pid` | Agregar un producto al carrito (o incrementar qty) |
-
-💡 **Los carritos se guardan en `carts.json` y contienen:**
-
-`id`, `products: [ { product, quantity } ]`
+| Método | Endpoint              | Descripción                                          |
+| ------ | --------------------- | ---------------------------------------------------- |
+| POST   | `/`                   | Crear un nuevo carrito vacío                         |
+| GET    | `/:cid`               | Ver los productos de un carrito (con populate)       |
+| POST   | `/:cid/products/:pid` | Agregar producto al carrito (o incrementar cantidad) |
+| PUT    | `/:cid/products/:pid` | Actualizar cantidad de un producto en el carrito     |
+| PUT    | `/:cid`               | Reemplazar todos los productos del carrito           |
+| DELETE | `/:cid/products/:pid` | Eliminar un producto específico del carrito          |
+| DELETE | `/:cid`               | Vaciar completamente el carrito                      |
 
 ---
 
@@ -148,54 +136,30 @@ El servidor estará disponible en: **http://localhost:8080**
 
 ## 🛠 Tecnologías utilizadas - Entrega 2
 
-| Tecnología     | Versión | Propósito                    |
-| -------------- | ------- | ---------------------------- |
-| **Express**    | ^5.1.0  | Framework web                |
-| **Handlebars** | ^8.0.3  | Motor de plantillas          |
-| **Socket.io**  | ^4.8.1  | Comunicación en tiempo real  |
-| **Mongoose**   | ^8.16.2 | ODM para MongoDB (preparado) |
-| **dotenv**     | ^17.1.0 | Variables de entorno         |
-| **Moment**     | ^2.30.1 | Manejo de fechas             |
-| **Nodemon**    | ^3.1.10 | Desarrollo con hot reload    |
+| Tecnología      | Uso principal                       |
+| --------------- | ----------------------------------- |
+| Express         | Servidor web/API                    |
+| Handlebars      | Motor de vistas                     |
+| Mongoose        | ODM para MongoDB                    |
+| express-session | Sessions de usuario/carrito         |
+| connect-mongo   | Persistencia de sessions en MongoDB |
+| dotenv          | Configuración segura                |
+| Socket.io       | (opcional) tiempo real en productos |
 
 ---
 
 ## 🧪 Datos de prueba recomendados
 
-### 📁 `products.json`
-
-```json
-[
-  {
-    "id": 1,
-    "title": "Paleta Pro Control",
-    "description": "Paleta de pádel profesional con gran control",
-    "code": "PPC001",
-    "price": 220000,
-    "status": true,
-    "stock": 15,
-    "category": "paletas",
-    "thumbnails": ["images/paleta1.png"]
-  },
-  {
-    "id": 2,
-    "title": "Zapatillas Match Play",
-    "description": "Zapatillas especiales para pádel indoor",
-    "code": "ZMP002",
-    "price": 150000,
-    "status": true,
-    "stock": 30,
-    "category": "calzado",
-    "thumbnails": ["images/zapatillas1.png"]
-  }
-]
-```
+> ⚠️ Ahora los datos se gestionan 100% en MongoDB (`coderbackend`).
+> Ya no se usan ni `products.json` ni `carts.json`.  
+> Podés cargar productos desde la API o scripts de carga inicial.
 
 ### 📁 `.env`
 
 ```env
 PORT=8080
-NODE_ENV=development
+MONGO_URI=mongodb+srv://<usuario>:<password>@<cluster>.mongodb.net/coderbackend
+SESSION_SECRET=tuSecretoUltraPro
 ```
 
 ---
@@ -221,11 +185,20 @@ NODE_ENV=development
 - Manejo profesional de errores
 - Código documentado y organizado
 
+### 🛠 Requisitos técnicos cumplidos - Entrega Final
+
+- Persistencia principal en MongoDB (Mongoose)
+- API RESTful profesional para productos y carritos
+- Filtros, orden y paginación avanzada en productos
+- Populate de productos en carritos
+- Vistas Handlebars modernas para productos y carrito
+- Carrito único por usuario (session)
+- Código modular, limpio y documentado
+
 ---
 
 ## 🚧 Próximas funcionalidades
 
-🔜 **Entrega 3:** Integración con base de datos  
 🔜 **Autenticación:** Sistema de usuarios  
 🔜 **Validaciones:** Middleware de validación  
 🔜 **Testing:** Suite de pruebas unitarias
@@ -235,7 +208,7 @@ NODE_ENV=development
 ## 📬 Autor
 
 Desarrollado por **Nicolás Stocchero**  
-**Entrega 2** para el curso **Programación Backend I: Desarrollo Avanzado de Backend - Coderhouse**
+**Entrega Final** para el curso **Programación Backend I: Desarrollo Avanzado de Backend - Coderhouse**
 
 ---
 

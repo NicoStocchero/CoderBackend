@@ -1,4 +1,9 @@
-import fs from 'fs/promises';
+import fs from "fs/promises";
+
+/**
+ * Archivo obsoleto, no se usa
+ * Se usa el modelo de producto de mongoose
+ */
 
 export default class ProductManager {
   constructor(rutaArchivo) {
@@ -10,7 +15,7 @@ export default class ProductManager {
    */
   async getAll() {
     try {
-      const data = await fs.readFile(this.path, 'utf-8');
+      const data = await fs.readFile(this.path, "utf-8");
       return JSON.parse(data);
     } catch (error) {
       // Si el archivo no existe, se devuelve un array vacío
@@ -23,7 +28,7 @@ export default class ProductManager {
    */
   async getById(id) {
     const productos = await this.getAll();
-    const encontrado = productos.find(p => p.id == id);
+    const encontrado = productos.find((p) => p.id == id);
     return encontrado || null;
   }
 
@@ -34,18 +39,19 @@ export default class ProductManager {
     const productos = await this.getAll();
 
     // Generar ID autoincremental
-    const nuevoId = productos.length > 0 ? productos[productos.length - 1].id + 1 : 1;
+    const nuevoId =
+      productos.length > 0 ? productos[productos.length - 1].id + 1 : 1;
 
     const nuevoProducto = {
       id: nuevoId,
-      title: producto.title || '',
-      description: producto.description || '',
-      code: producto.code || '',
+      title: producto.title || "",
+      description: producto.description || "",
+      code: producto.code || "",
       price: producto.price || 0,
       status: producto.status ?? true,
       stock: producto.stock || 0,
-      category: producto.category || '',
-      thumbnails: Array.isArray(producto.thumbnails) ? producto.thumbnails : []
+      category: producto.category || "",
+      thumbnails: Array.isArray(producto.thumbnails) ? producto.thumbnails : [],
     };
 
     productos.push(nuevoProducto);
@@ -59,14 +65,18 @@ export default class ProductManager {
    */
   async updateProduct(id, campos) {
     const productos = await this.getAll();
-    const index = productos.findIndex(p => p.id == id);
+    const index = productos.findIndex((p) => p.id == id);
 
     if (index === -1) {
       return null;
     }
 
     // No se permite modificar el ID
-    const actualizado = { ...productos[index], ...campos, id: productos[index].id };
+    const actualizado = {
+      ...productos[index],
+      ...campos,
+      id: productos[index].id,
+    };
 
     productos[index] = actualizado;
     await fs.writeFile(this.path, JSON.stringify(productos, null, 2));
@@ -79,7 +89,7 @@ export default class ProductManager {
    */
   async deleteProduct(id) {
     const productos = await this.getAll();
-    const filtrados = productos.filter(p => p.id != id);
+    const filtrados = productos.filter((p) => p.id != id);
 
     if (filtrados.length === productos.length) {
       return null;

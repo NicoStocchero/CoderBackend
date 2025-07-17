@@ -1,0 +1,52 @@
+<!-- Estilos Font Awesome -->
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+/>
+
+<div class="container">
+  <h1 class="main-title"><i class="fa-solid fa-cart-shopping"></i>
+    Mi Carrito</h1>
+
+  {{#if cart.products.length}}
+    <ul class="product-list">
+      {{#each cart.products}}
+        <li class="product-card">
+          <div class="product-info">
+            <h2 class="product-title">{{this.product.title}}</h2>
+            <div class="product-meta">
+              <span>Precio:
+                <span class="price">{{formatCurrency
+                    this.product.price
+                  }}</span></span>
+              <span>Cantidad: {{this.quantity}}</span>
+              <span>Subtotal:
+                <strong class="price">{{formatCurrency
+                    (multiply this.product.price this.quantity)
+                  }}</strong></span>
+            </div>
+          </div>
+          <form method="POST" action="/api/carts/{{../cart._id}}/products/{{this.product._id}}?_method=DELETE">
+            <button type="submit" class="btn btn-danger">
+              <i class="fa-solid fa-trash"></i>
+            </button>
+          </form>
+        </li>
+      {{/each}}
+    </ul>
+
+    <div class="total-row">
+      <span>Total:</span>
+      <span class="price"><strong>{{formatCurrency total}}</strong></span>
+    </div>
+  {{else}}
+    <p>No hay productos en este carrito.</p>
+  {{/if}}
+
+  <div class="button-container" style="margin-top:2rem;">
+    <a href="/products" class="btn btn-secondary">
+      <i class="fa-solid fa-arrow-left"></i>
+      Seguir comprando
+    </a>
+  </div>
+</div>

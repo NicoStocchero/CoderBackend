@@ -1,0 +1,49 @@
+<div class="container detail-view">
+  <div class="product-header">
+    <h1 class="product-title">
+      {{product.title}}
+    </h1>
+  </div>
+
+  <div class="product-detail-card">
+    <div class="product-detail-info">
+      <p class="desc">
+        {{product.description}}
+      </p>
+      <div class="meta-row">
+        <span class="meta-label">Precio:</span>
+        <span class="meta-value price">{{formatCurrency product.price}}</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Categoría:</span>
+        <span class="meta-value category"><i class="fa-solid fa-tag"></i>
+          {{product.category}}</span>
+      </div>
+      <div class="meta-row">
+        <span class="meta-label">Stock:</span>
+        <span class="meta-value stock">{{product.stock}}</span>
+      </div>
+    </div>
+
+    <div class="product-detail-actions">
+      <button
+        id="addToCartBtn"
+        class="btn btn-cart"
+        data-product-id="{{product._id}}"
+      >
+        <i class="fa-solid fa-cart-plus"></i>
+        Agregar al carrito
+      </button>
+      <a href="/products" class="btn btn-secondary">
+        <i class="fa-solid fa-arrow-left"></i>
+        Volver a productos
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- Script para agregar al carrito -->
+<script>
+  window.cartId = "{{cartId}}";
+</script>
+<script src="/js/cart.js"></script>

@@ -3,8 +3,20 @@
     <meta charset="UTF-8" />
     <title>{{title}}</title>
     <link rel="stylesheet" href="/css/style.css" />
+    <!-- FontAwesome para íconos -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
   </head>
   <body>
+    <!-- Header simple, visible en todas las páginas -->
+    <header class="site-header">
+      <a href="/carts/{{cartId}}" class="btn btn-cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        Ver mi carrito
+      </a>
+    </header>
     {{{body}}}
   </body>
 </html>

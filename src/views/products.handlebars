@@ -1,0 +1,73 @@
+<div class="container">
+  <h1 class="main-title">Listado de productos</h1>
+
+  <!-- Filtros y ordenamiento -->
+  <form method="GET" action="/products" class="filter-form">
+    <div class="filter-row">
+      <select name="query">
+        <option value="">Todas las categorías</option>
+        <option value="paletas" {{#if (eq query "paletas")}}selected{{/if}}>Paletas</option>
+        <option value="calzado" {{#if (eq query "calzado")}}selected{{/if}}>Calzado</option>
+        <option value="accesorios" {{#if (eq query "accesorios")}}selected{{/if}}>Accesorios</option>
+        <option value="indumentaria" {{#if (eq query "indumentaria")}}selected{{/if}}>Indumentaria</option>
+        <option value="disponibles" {{#if (eq query "disponibles")}}selected{{/if}}>Solo disponibles</option>
+      </select>
+      <select name="sort">
+        <option value="">Sin orden</option>
+        <option value="asc" {{#if (eq sort "asc")}}selected{{/if}}>Precio ascendente</option>
+        <option value="desc" {{#if (eq sort "desc")}}selected{{/if}}>Precio descendente</option>
+      </select>
+      <button type="submit" class="btn btn-filter">
+        <i class="fa-solid fa-filter"></i> Filtrar
+      </button>
+    </div>
+  </form>
+
+  <!-- Lista de productos -->
+  <ul class="product-list">
+    {{#each products}}
+      <li class="product-card">
+        <div class="product-info">
+          <h2 class="product-title">{{title}}</h2>
+          <p class="product-meta">
+            <span class="category"><i class="fa-solid fa-tag"></i> {{category}}</span>
+            <span class="price">{{formatCurrency price}}</span>
+          </p>
+        </div>
+        <div class="product-actions">
+          <a href="/products/{{_id}}" class="btn btn-detail">
+            <i class="fa-solid fa-eye"></i> Ver detalle
+          </a>
+          <button
+            class="btn btn-cart"
+            data-product-id="{{_id}}"
+            >
+             <i class="fa-solid fa-cart-plus"></i>
+              Agregar al carrito
+            </button>
+        </div>
+      </li>
+    {{/each}}
+  </ul>
+
+  <!-- Paginación -->
+  <div class="pagination">
+    {{#if hasPrevPage}}
+      <a class="btn btn-page" href="/products?page={{prevPage}}&limit=10&query={{query}}&sort={{sort}}">
+        <i class="fa-solid fa-arrow-left"></i> Anterior
+      </a>
+    {{/if}}
+    <span class="page-indicator">Página {{page}} de {{totalPages}}</span>
+    {{#if hasNextPage}}
+      <a class="btn btn-page" href="/products?page={{nextPage}}&limit=10&query={{query}}&sort={{sort}}">
+        Siguiente <i class="fa-solid fa-arrow-right"></i>
+      </a>
+    {{/if}}
+  </div>
+</div>
+
+<!-- Script para agregar al carrito -->
+<script>
+  window.cartId = "{{cartId}}";
+</script>
+<script src="/js/cart.js"></script>

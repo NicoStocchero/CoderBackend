@@ -1,48 +1,57 @@
-import { Router } from 'express';
-import CartManager from '../managers/CartManager.js';
+import { Router } from "express";
+import {
+  createCart,
+  getCartById,
+  addProductToCart,
+  removeProductFromCart,
+  updateProductQuantity,
+  clearCart,
+  updateCartProducts,
+} from "../controller/cart.controller.js";
 
 const router = Router();
-const manager = new CartManager('./src/data/carts.json');
 
 /**
  * POST /api/carts
  * Crea un nuevo carrito (con ID autogenerado y sin productos)
  */
-router.post('/', async (req, res) => {
-  const nuevoCarrito = await manager.createCart();
-  res.status(201).json({ status: 'success', data: nuevoCarrito });
-});
-
+router.post("/", createCart);
 /**
  * GET /api/carts/:cid
  * Devuelve todos los productos de un carrito específico
  */
-router.get('/:cid', async (req, res) => {
-  const cid = parseInt(req.params.cid);
-  const carrito = await manager.getCartById(cid);
-
-  if (!carrito) {
-    return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
-  }
-
-  res.json({ status: 'success', data: carrito.products });
-});
+router.get("/:cid", getCartById);
 
 /**
  * POST /api/carts/:cid/product/:pid
  * Agrega un producto al carrito (si ya existe, incrementa cantidad)
  */
-router.post('/:cid/product/:pid', async (req, res) => {
-  const cid = parseInt(req.params.cid);
-  const pid = parseInt(req.params.pid);
+router.post("/:cid/products/:pid", addProductToCart);
 
-  const actualizado = await manager.addProductToCart(cid, pid);
+/**
+ * DELETE /api/carts/:cid/products/:pid
+ * Elimina un producto específico del carrito
+ */
+router.delete("/:cid/products/:pid", removeProductFromCart);
 
-  if (!actualizado) {
-    return res.status(404).json({ status: 'error', message: 'Carrito no encontrado' });
-  }
+/**
+ * PUT /api/carts/:cid/products/:pid
+ * Actualiza la cantidad de un producto en el carrito
+ * Body: { quantity: number }
+ */
+router.put("/:cid/products/:pid", updateProductQuantity);
 
-  res.json({ status: 'success', data: actualizado });
-});
+/**
+ * DELETE /api/carts/:cid
+ * Vacía completamente el carrito
+ */
+router.delete("/:cid", clearCart);
+
+/**
+ * PUT /api/carts/:cid
+ * Reemplaza el array completo de productos del carrito
+ * Body: { products: [ { product, quantity } ] }
+ */
+router.put("/:cid", updateCartProducts);
 
 export default router;

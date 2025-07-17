@@ -1,20 +1,27 @@
 import { Router } from "express";
-import ProductManager from "../managers/ProductManager.js";
+import {
+  renderHome,
+  renderRealTimeProducts,
+  renderProductsList,
+  renderProductDetail,
+  renderCartDetail,
+} from "../controller/views.controller.js";
 
 const router = Router();
 
-const productManager = new ProductManager("./src/data/products.json");
-
 // Ruta para la vista de productos estáticos
-router.get("/home", async (req, res) => {
-  const products = await productManager.getAll();
-  res.render("home", { products });
-});
+router.get("/home", renderHome);
 
 // Ruta para la vista de productos en tiempo real
-router.get("/realtimeproducts", async (req, res) => {
-  const products = await productManager.getAll();
-  res.render("realTimeProducts", { products });
-});
+router.get("/realtimeproducts", renderRealTimeProducts);
+
+// Ruta para la vista de productos con paginación y filtros
+router.get("/products", renderProductsList);
+
+// Ruta para la vista de detalle de producto
+router.get("/products/:pid", renderProductDetail);
+
+// Ruta para la vista de detalle de carrito
+router.get("/carts/:cid", renderCartDetail);
 
 export default router;

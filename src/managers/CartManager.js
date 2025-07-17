@@ -1,4 +1,9 @@
-import fs from 'fs/promises';
+import fs from "fs/promises";
+
+/**
+ * Archivo obsoleto, no se usa
+ * Se usa el modelo de carrito de mongoose
+ */
 
 export default class CartManager {
   constructor(rutaArchivo) {
@@ -10,7 +15,7 @@ export default class CartManager {
    */
   async getAll() {
     try {
-      const data = await fs.readFile(this.path, 'utf-8');
+      const data = await fs.readFile(this.path, "utf-8");
       return JSON.parse(data);
     } catch (error) {
       // Si el archivo no existe, devuelve un array vacío
@@ -25,11 +30,12 @@ export default class CartManager {
     const carritos = await this.getAll();
 
     // Generar ID autoincremental
-    const nuevoId = carritos.length > 0 ? carritos[carritos.length - 1].id + 1 : 1;
+    const nuevoId =
+      carritos.length > 0 ? carritos[carritos.length - 1].id + 1 : 1;
 
     const nuevoCarrito = {
       id: nuevoId,
-      products: []
+      products: [],
     };
 
     carritos.push(nuevoCarrito);
@@ -43,7 +49,7 @@ export default class CartManager {
    */
   async getCartById(id) {
     const carritos = await this.getAll();
-    const carrito = carritos.find(c => c.id == id);
+    const carrito = carritos.find((c) => c.id == id);
     return carrito || null;
   }
 
@@ -53,14 +59,14 @@ export default class CartManager {
    */
   async addProductToCart(cid, pid) {
     const carritos = await this.getAll();
-    const index = carritos.findIndex(c => c.id == cid);
+    const index = carritos.findIndex((c) => c.id == cid);
 
     if (index === -1) {
       return null;
     }
 
     const carrito = carritos[index];
-    const productoExistente = carrito.products.find(p => p.product == pid);
+    const productoExistente = carrito.products.find((p) => p.product == pid);
 
     if (productoExistente) {
       // Si ya está en el carrito, aumentar la cantidad
