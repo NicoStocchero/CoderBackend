@@ -78,6 +78,22 @@ npm install
 npm run dev
 ```
 
+### 🔐 Generar y configurar JWT_SECRET
+
+- Node.js:
+  ```bash
+  node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+  ```
+- OpenSSL:
+  ```bash
+  openssl rand -hex 48
+  ```
+- Agregalo a tu `.env` en una sola línea:
+  ```env
+  JWT_SECRET=EL_VALOR_GENERADO
+  ```
+- Tips: no uses comillas; si lo cambiás, los tokens previos dejan de ser válidos; tras editar `.env`, reiniciá el servidor (en nodemon: `rs`).
+
 ---
 
 ## 📦 Módulos clave
