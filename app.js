@@ -12,6 +12,10 @@ import connectDB from "./src/config/database.js";
 import session from "express-session";
 import { ensureCart } from "./src/middlewares/ensureCart.js";
 import MongoStore from "connect-mongo";
+import cookieParser from "cookie-parser";
+import passport from "passport";
+import { initializePassport } from "./src/config/passport.config.js";
+import sessionsRouter from "./src/routes/sessions.router.js";
 
 dotenv.config();
 
@@ -23,7 +27,7 @@ const app = express();
 // Configuración de express-session (después de app = express())
 app.use(
   session({
-    secret: "miSuperClaveSecreta123", // Cambiala en producción
+    secret: "miSuperClaveSecreta123", // Cambiar en producción
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 1000 * 60 * 60 }, // 1 hora de sesión
@@ -34,13 +38,27 @@ app.use(
   })
 );
 
-// Middleware para asegurar que el carrito exista
-app.use(ensureCart);
+// Cookies (para JWT)
+app.use(cookieParser());
 
 // Middleware básicos
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
+// Inicializar Passport (JWT/local)
+initializePassport();
+app.use(passport.initialize());
+
+// Middleware para asegurar que el carrito exista
+app.use(ensureCart);
+
+// Exponer datos comunes a las vistas
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  res.locals.cartId = req.session.cartId || null;
+  next();
+});
 
 // Configuración de Handlebars
 app.engine(
@@ -56,7 +74,22 @@ app.engine(
           minimumFractionDigits: 0,
         }).format(value);
       },
+      formatDate: (isoDate) => {
+        try {
+          const date = new Date(isoDate);
+          return new Intl.DateTimeFormat("es-AR", {
+            year: "numeric",
+            month: "2-digit",
+            day: "2-digit",
+            hour: "2-digit",
+            minute: "2-digit",
+          }).format(date);
+        } catch {
+          return isoDate;
+        }
+      },
     },
+    partialsDir: ["./src/views/partials"],
   })
 );
 app.set("view engine", "handlebars");
@@ -65,6 +98,7 @@ app.set("views", "./src/views");
 // Rutas HTTP
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
+app.use("/api/sessions", sessionsRouter);
 app.use("/", viewsRouter);
 
 // Middleware errores
