@@ -1,5 +1,16 @@
 import mongoose from "mongoose";
 
+/**
+ * Esquema de usuario
+ * @param {Object} first_name - El nombre del usuario
+ * @param {Object} last_name - El apellido del usuario
+ * @param {Object} email - El correo electrónico del usuario
+ * @param {Object} age - La edad del usuario
+ * @param {Object} password - La contraseña del usuario
+ * @param {Object} cart - El carrito del usuario
+ * @param {Object} role - El rol del usuario
+ * @returns {Object} - El usuario
+ */
 const userSchema = new mongoose.Schema(
   {
     first_name: { type: String, required: true },

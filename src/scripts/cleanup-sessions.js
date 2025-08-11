@@ -5,6 +5,9 @@ import { __dirname } from "./utils/utils.js";
 const sessionDir = "sessions";
 const maxAge = 2 * 60 * 60 * 1000; // 2 horas en milisegundos
 
+/**
+ * Limpia las sesiones antiguas
+ */
 function cleanupOldSessions() {
   const files = fs.readdirSync(sessionDir);
   const now = Date.now();

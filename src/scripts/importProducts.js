@@ -8,6 +8,9 @@ dotenv.config();
 
 const MONGO_URI = process.env.MONGO_URI;
 
+/**
+ * Importa los productos desde el archivo JSON a la base de datos
+ */
 const run = async () => {
   try {
     const fileContent = await readFile("./src/data/products.json", "utf-8");

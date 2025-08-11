@@ -4,7 +4,11 @@ const form = document.getElementById("productForm");
 const productList = document.getElementById("productList");
 const deleteLastBtn = document.getElementById("deleteLastBtn");
 
-// Evento para agregar un nuevo producto
+/**
+ * Manejador de envío del formulario de creación de producto
+ * @param {Event} e - El evento de envío del formulario
+ * @returns {void}
+ */
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const formData = new FormData(form);
@@ -16,7 +20,11 @@ form.addEventListener("submit", (e) => {
   form.reset();
 });
 
-// Evento para actualizar la lista de productos
+/**
+ * Manejador de actualización de la lista de productos
+ * @param {Array} products - Los productos actualizados
+ * @returns {void}
+ */
 socket.on("update-products", (products) => {
   productList.innerHTML = "";
   products.forEach((prod) => {
@@ -27,7 +35,10 @@ socket.on("update-products", (products) => {
   });
 });
 
-// Evento para eliminar el último producto
+/**
+ * Manejador de clic en el botón de eliminación del último producto
+ * @returns {void}
+ */
 deleteLastBtn.addEventListener("click", () => {
   socket.emit("delete-last");
 });

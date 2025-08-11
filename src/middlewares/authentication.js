@@ -1,6 +1,10 @@
 import passport from "passport";
 
-// Middleware de autenticación basado en sesión
+/**
+ * Middleware de autenticación basado en sesión
+ * @param {Array} permission - Los roles permitidos
+ * @returns {Function} - El middleware de autenticación
+ */
 export const auth = (permission = []) => {
   return (req, res, next) => {
     if (!Array.isArray(permission)) {
@@ -29,7 +33,11 @@ export const auth = (permission = []) => {
   };
 };
 
-// Middleware de autenticación basado en Passport
+/**
+ * Middleware de autenticación basado en Passport
+ * @param {string} strategy - La estrategia de autenticación
+ * @returns {Function} - El middleware de autenticación
+ */
 export const passportAuth = (strategy) => (req, res, next) => {
   passport.authenticate(strategy, (err, user, info, status) => {
     if (err) return next(err);

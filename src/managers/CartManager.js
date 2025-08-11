@@ -3,6 +3,7 @@ import fs from "fs/promises";
 /**
  * Archivo obsoleto, no se usa
  * Se usa el modelo de carrito de mongoose
+ * @param {string} rutaArchivo - La ruta del archivo
  */
 
 export default class CartManager {
@@ -12,6 +13,7 @@ export default class CartManager {
 
   /**
    * Lee el archivo y retorna todos los carritos
+   * @returns {Array} - Los carritos
    */
   async getAll() {
     try {
@@ -25,6 +27,7 @@ export default class CartManager {
 
   /**
    * Crea un nuevo carrito con ID autoincremental y productos vacío
+   * @returns {Object} - El carrito creado
    */
   async createCart() {
     const carritos = await this.getAll();
@@ -46,6 +49,8 @@ export default class CartManager {
 
   /**
    * Obtiene un carrito por su ID
+   * @param {string} id - El ID del carrito
+   * @returns {Object} - El carrito
    */
   async getCartById(id) {
     const carritos = await this.getAll();
@@ -56,6 +61,9 @@ export default class CartManager {
   /**
    * Agrega un producto a un carrito
    * Si ya existe el producto, incrementa su cantidad
+   * @param {string} cid - El ID del carrito
+   * @param {string} pid - El ID del producto
+   * @returns {Object} - El carrito
    */
   async addProductToCart(cid, pid) {
     const carritos = await this.getAll();

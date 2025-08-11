@@ -1,8 +1,10 @@
 import { productModel } from "../models/products.model.js";
 
 /**
- * GET /api/products
  * Obtiene todos los productos con paginación y filtros
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - Los productos
  */
 export const getAllProducts = async (req, res) => {
   try {
@@ -50,8 +52,10 @@ export const getAllProducts = async (req, res) => {
 };
 
 /**
- * GET /api/products/:pid
  * Obtiene un producto por su ID
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El producto
  */
 export const getProductById = async (req, res) => {
   try {
@@ -64,8 +68,10 @@ export const getProductById = async (req, res) => {
 };
 
 /**
- * POST /api/products
  * Crea un nuevo producto
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El producto creado
  */
 export const createProduct = async (req, res) => {
   try {
@@ -87,8 +93,10 @@ export const createProduct = async (req, res) => {
 };
 
 /**
- * PUT /api/products/:pid
  * Actualiza un producto por su ID
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El producto actualizado
  */
 export const updateProduct = async (req, res) => {
   try {
@@ -107,8 +115,10 @@ export const updateProduct = async (req, res) => {
 };
 
 /**
- * DELETE /api/products/:pid
  * Elimina un producto por su ID
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El producto eliminado
  */
 export const deleteProduct = async (req, res) => {
   try {

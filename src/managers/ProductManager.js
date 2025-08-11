@@ -3,6 +3,7 @@ import fs from "fs/promises";
 /**
  * Archivo obsoleto, no se usa
  * Se usa el modelo de producto de mongoose
+ * @param {string} rutaArchivo - La ruta del archivo
  */
 
 export default class ProductManager {
@@ -12,6 +13,7 @@ export default class ProductManager {
 
   /**
    * Lee el archivo y retorna el array de productos
+   * @returns {Array} - Los productos
    */
   async getAll() {
     try {
@@ -25,6 +27,8 @@ export default class ProductManager {
 
   /**
    * Busca un producto por su ID
+   * @param {string} id - El ID del producto
+   * @returns {Object} - El producto encontrado
    */
   async getById(id) {
     const productos = await this.getAll();
@@ -34,6 +38,8 @@ export default class ProductManager {
 
   /**
    * Agrega un nuevo producto con ID autoincremental
+   * @param {Object} producto - El producto a agregar
+   * @returns {Object} - El producto agregado
    */
   async addProduct(producto) {
     const productos = await this.getAll();
@@ -62,6 +68,9 @@ export default class ProductManager {
 
   /**
    * Actualiza un producto existente (sin tocar el ID)
+   * @param {string} id - El ID del producto
+   * @param {Object} campos - Los campos a actualizar
+   * @returns {Object} - El producto actualizado
    */
   async updateProduct(id, campos) {
     const productos = await this.getAll();
@@ -86,6 +95,8 @@ export default class ProductManager {
 
   /**
    * Elimina un producto por su ID
+   * @param {string} id - El ID del producto
+   * @returns {Object} - El producto eliminado
    */
   async deleteProduct(id) {
     const productos = await this.getAll();

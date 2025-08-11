@@ -7,6 +7,11 @@ const inputEmail = document.getElementById("email");
 const inputPassword = document.getElementById("password");
 const buttonRegister = document.getElementById("register");
 
+/**
+ * Manejador de envío del formulario de registro
+ * @param {Event} e - El evento de envío del formulario
+ * @returns {void}
+ */
 if (buttonRegister) {
   buttonRegister.addEventListener("click", async (e) => {
     e.preventDefault();

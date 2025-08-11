@@ -2,6 +2,11 @@ import bcrypt from "bcrypt";
 import { mongooseSchema as User } from "../models/user.model.js";
 import { cartModel } from "../models/cart.model.js";
 
+/**
+ * Sanitiza el usuario para evitar exponer datos sensibles
+ * @param {Object} doc - El documento a sanitizar
+ * @returns {Object} - El documento sanitizado
+ */
 const sanitize = (doc) => {
   if (!doc) return null;
   const plain = doc.toObject ? doc.toObject() : doc;
@@ -10,6 +15,12 @@ const sanitize = (doc) => {
   return plain;
 };
 
+/**
+ * Obtiene todos los usuarios
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - Los usuarios
+ */
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find().lean();
@@ -23,6 +34,12 @@ export const getUsers = async (req, res) => {
   }
 };
 
+/**
+ * Obtiene un usuario por su ID
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El usuario
+ */
 export const getUserById = async (req, res) => {
   try {
     const user = await User.findById(req.params.uid);
@@ -36,6 +53,12 @@ export const getUserById = async (req, res) => {
   }
 };
 
+/**
+ * Crea un nuevo usuario
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El usuario creado
+ */
 export const createUser = async (req, res) => {
   try {
     const { first_name, last_name, email, age, password, role } = req.body;
@@ -68,6 +91,12 @@ export const createUser = async (req, res) => {
   }
 };
 
+/**
+ * Actualiza un usuario
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El usuario actualizado
+ */
 export const updateUser = async (req, res) => {
   try {
     const updates = { ...req.body };
@@ -87,6 +116,12 @@ export const updateUser = async (req, res) => {
   }
 };
 
+/**
+ * Elimina un usuario
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El usuario eliminado
+ */
 export const deleteUser = async (req, res) => {
   try {
     const user = await User.findByIdAndDelete(req.params.uid);

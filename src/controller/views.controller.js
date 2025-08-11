@@ -3,6 +3,9 @@ import { cartModel } from "../models/cart.model.js";
 
 /**
  * Vista de productos estáticos
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - La vista de productos estáticos
  */
 export const renderHome = async (req, res) => {
   const products = await productModel.find().lean();
@@ -11,6 +14,9 @@ export const renderHome = async (req, res) => {
 
 /**
  * Vista de productos en tiempo real
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - La vista de productos en tiempo real
  */
 export const renderRealTimeProducts = async (req, res) => {
   const products = await productModel.find().lean();
@@ -19,6 +25,9 @@ export const renderRealTimeProducts = async (req, res) => {
 
 /**
  * Vista de productos con paginación y filtros
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - La vista de productos con paginación y filtros
  */
 export const renderProductsList = async (req, res) => {
   const { limit = 10, page = 1, sort, query } = req.query;
@@ -55,6 +64,9 @@ export const renderProductsList = async (req, res) => {
 
 /**
  * Vista de detalle de producto
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - La vista de detalle de producto
  */
 export const renderProductDetail = async (req, res) => {
   try {
@@ -72,6 +84,9 @@ export const renderProductDetail = async (req, res) => {
 
 /**
  * Vista de detalle de carrito
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - La vista de detalle de carrito
  */
 export const renderCartDetail = async (req, res) => {
   try {

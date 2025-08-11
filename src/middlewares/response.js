@@ -1,4 +1,9 @@
-// Middleware global para respuestas personalizadas
+/**
+ * Middleware global para respuestas personalizadas
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @param {Function} next - La función para continuar
+ */
 export const customResponseMiddleware = (req, res, next) => {
   res.setHeader("Content-Type", "application/json");
 

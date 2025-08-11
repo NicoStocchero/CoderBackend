@@ -4,6 +4,11 @@ const loginForm = document.getElementById("loginForm");
 const inputEmail = document.getElementById("email");
 const inputPassword = document.getElementById("password");
 
+/**
+ * Manejador de envío del formulario de inicio de sesión
+ * @param {Event} e - El evento de envío del formulario
+ * @returns {void}
+ */
 if (loginForm) {
   loginForm.addEventListener("submit", async (e) => {
     e.preventDefault();

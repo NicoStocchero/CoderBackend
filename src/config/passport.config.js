@@ -5,8 +5,14 @@ import bcrypt from "bcrypt";
 import { mongooseSchema as User } from "../models/user.model.js";
 import { cartModel } from "../models/cart.model.js";
 
+/**
+ * Inicializa Passport
+ * @returns {void}
+ */
 export const initializePassport = () => {
-  // Estrategia Local: registro de usuario
+  /**
+   * Estrategia Local: registro de usuario
+   */
   passport.use(
     "register",
     new LocalStrategy(
@@ -52,7 +58,9 @@ export const initializePassport = () => {
     )
   );
 
-  // Estrategia Local: login de usuario
+  /**
+   * Estrategia Local: login de usuario
+   */
   passport.use(
     "login",
     new LocalStrategy(
@@ -81,7 +89,9 @@ export const initializePassport = () => {
     )
   );
 
-  // Estrategia JWT
+  /**
+   * Estrategia JWT
+   */
   passport.use(
     "jwt",
     new JwtStrategy(
@@ -109,7 +119,9 @@ export const initializePassport = () => {
     )
   );
 
-  // Alias "current" (igual a JWT) para /api/sessions/current
+  /**
+   * Alias "current" (igual a JWT) para /api/sessions/current
+   */
   passport.use(
     "current",
     new JwtStrategy(

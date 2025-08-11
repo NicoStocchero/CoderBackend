@@ -1,3 +1,8 @@
+/**
+ * Agrega un producto al carrito
+ * @param {string} productId - El ID del producto
+ * @returns {void}
+ */
 document.addEventListener("DOMContentLoaded", () => {
   const addToCartBtns = document.querySelectorAll("[data-product-id]");
   const cartId = window.cartId || null;

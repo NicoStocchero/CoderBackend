@@ -2,6 +2,9 @@ import { cartModel } from "../models/cart.model.js";
 
 /**
  * Crea un nuevo carrito vacío
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El carrito creado
  */
 export const createCart = async (req, res) => {
   try {
@@ -14,6 +17,9 @@ export const createCart = async (req, res) => {
 
 /**
  * Devuelve el carrito con productos populados
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El carrito con productos populados
  */
 export const getCartById = async (req, res) => {
   try {
@@ -33,6 +39,9 @@ export const getCartById = async (req, res) => {
 
 /**
  * Agrega un producto o incrementa su cantidad
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El carrito con el producto agregado o incrementado
  */
 export const addProductToCart = async (req, res) => {
   try {
@@ -59,6 +68,9 @@ export const addProductToCart = async (req, res) => {
 
 /**
  * Elimina un producto específico del carrito
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El carrito con el producto eliminado
  */
 export const removeProductFromCart = async (req, res) => {
   try {
@@ -80,6 +92,9 @@ export const removeProductFromCart = async (req, res) => {
 
 /**
  * Actualiza la cantidad de un producto del carrito
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El carrito con la cantidad actualizada
  */
 export const updateProductQuantity = async (req, res) => {
   try {
@@ -105,6 +120,9 @@ export const updateProductQuantity = async (req, res) => {
 
 /**
  * Reemplaza todo el arreglo de productos
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El carrito con los productos reemplazados
  */
 export const updateCartProducts = async (req, res) => {
   try {
@@ -127,6 +145,9 @@ export const updateCartProducts = async (req, res) => {
 
 /**
  * Vacía completamente el carrito
+ * @param {Object} req - La solicitud HTTP
+ * @param {Object} res - La respuesta HTTP
+ * @returns {Object} - El carrito vaciado
  */
 export const clearCart = async (req, res) => {
   try {
