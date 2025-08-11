@@ -16,6 +16,7 @@ import cookieParser from "cookie-parser";
 import passport from "passport";
 import { initializePassport } from "./src/config/passport.config.js";
 import sessionsRouter from "./src/routes/sessions.router.js";
+import usersRouter from "./src/routes/users.router.js";
 
 dotenv.config();
 
@@ -99,6 +100,7 @@ app.set("views", "./src/views");
 app.use("/api/products", productsRouter);
 app.use("/api/carts", cartsRouter);
 app.use("/api/sessions", sessionsRouter);
+app.use("/api/users", usersRouter);
 app.use("/", viewsRouter);
 
 // Middleware errores
