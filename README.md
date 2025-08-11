@@ -1,218 +1,86 @@
-# API de Productos y Carritos 🛒
+# Backend II: Diseño y Arquitectura Backend
 
-Este proyecto corresponde a la **Entrega Final de Programación Backend I (Coderhouse)**.  
-Servidor avanzado que permite gestionar productos y carritos con persistencia en **MongoDB**, vistas dinámicas, paginación profesional, sesiones y gestión de carritos real como en un e-commerce moderno.
+Este documento complementa el proyecto existente y documenta los cambios de la Entrega Nº 1 (Usuarios, Autenticación y Autorización con JWT) del curso Backend II.
 
----
+## Resumen de la entrega
 
-## 🆕 Nuevas funcionalidades
+- Modelo `User` con campos: `first_name`, `last_name`, `email` (único), `age`, `password` (hash), `cart` (ref a `Cart`), `role` (default `user`).
+- Encriptación de contraseña con `bcrypt.hashSync` en el registro.
+- Estrategias de Passport:
+  - `register` (local): crea usuario y carrito asociado.
+  - `login` (local): valida credenciales.
+  - `jwt`: valida token desde cookie HTTP-only `token`.
+- Sistema de login con JWT y endpoints bajo `/api/sessions`:
+  - `POST /api/sessions/register`
+  - `POST /api/sessions/login`
+  - `GET /api/sessions/current` (requiere JWT)
+  - `POST /api/sessions/logout`
+- Vistas actualizadas a Bootstrap y menú global.
 
-✅ **MongoDB como persistencia principal**  
-✅ **Consultas profesionales:** Filtros, paginación y orden en productos  
-✅ **Carrito profesional:** actualizar, vaciar, eliminar y populate  
-✅ **Carrito único por usuario (sessions)**  
-✅ **Vistas web modernas:** Productos, detalle y carrito  
-✅ **Handlebars:** Vistas dinámicas y limpias  
-✅ **Socket.io:** Actualizaciones en tiempo real  
-✅ **Variables de entorno:** dotenv  
-✅ **Arquitectura profesional:** Código modular y documentado
+## Cómo correr
 
----
-
-## 📁 Estructura del proyecto (Actualizada)
-
-```
-CoderBackend/
-├── src/
-│   ├── routes/
-│   ├── controllers/
-│   ├── models/
-│   ├── views/
-│   ├── middlewares/
-│   └── config/
-├── public/
-│   ├── css/
-│   ├── js/
-│   └── images/
-├── .env
-├── .gitignore
-├── package.json
-├── app.js
-└── README.md
-```
-
----
-
-## 🚀 Cómo ejecutar el proyecto
-
-1. Clonar el repositorio:
-
-```bash
-git clone https://github.com/NicoStocchero/CoderBackend
-cd CoderBackend
-```
-
-2. Instalar dependencias:
-
-```bash
-npm install
-```
-
-3. Configurar variables de entorno:
-
-```bash
-cp .env.example .env
-# Editar .env con tus configuraciones
-```
-
-4. Iniciar el servidor en desarrollo:
-
-```bash
-npm run dev
-```
-
-O en producción:
-
-```bash
-npm start
-```
-
-El servidor estará disponible en: **http://localhost:8080**
-
----
-
-## 🌐 Nuevas rutas web
-
-| Ruta               | Descripción                                         |
-| ------------------ | --------------------------------------------------- |
-| **/products**      | Listado de productos con paginación, filtros, orden |
-| **/products/:pid** | Detalle de producto y botón “Agregar al carrito”    |
-| **/carts/:cid**    | Vista de carrito con productos populados            |
-
----
-
-## 📦 Endpoints API (Actualizados)
-
----
-
-### 🔹 Productos `/api/products`
-
-| Método | Endpoint | Descripción                                      | Query Params                     |
-| ------ | -------- | ------------------------------------------------ | -------------------------------- |
-| GET    | `/`      | Listar productos con filtros, paginación y orden | `limit`, `page`, `sort`, `query` |
-| GET    | `/:pid`  | Obtener un producto por ID                       | -                                |
-| POST   | `/`      | Agregar un nuevo producto                        | -                                |
-| PUT    | `/:pid`  | Actualizar un producto                           | -                                |
-| DELETE | `/:pid`  | Eliminar un producto                             | -                                |
-
-### 🔹 Carritos `/api/carts`
-
-| Método | Endpoint              | Descripción                                          |
-| ------ | --------------------- | ---------------------------------------------------- |
-| POST   | `/`                   | Crear un nuevo carrito vacío                         |
-| GET    | `/:cid`               | Ver los productos de un carrito (con populate)       |
-| POST   | `/:cid/products/:pid` | Agregar producto al carrito (o incrementar cantidad) |
-| PUT    | `/:cid/products/:pid` | Actualizar cantidad de un producto en el carrito     |
-| PUT    | `/:cid`               | Reemplazar todos los productos del carrito           |
-| DELETE | `/:cid/products/:pid` | Eliminar un producto específico del carrito          |
-| DELETE | `/:cid`               | Vaciar completamente el carrito                      |
-
----
-
-## ⚡ Funcionalidades en tiempo real
-
-### 🔥 Socket.io Events
-
-**Cliente → Servidor:**
-
-- `new-product` - Agregar producto en tiempo real
-- `delete-last` - Eliminar último producto
-
-**Servidor → Cliente:**
-
-- `update-products` - Actualización de lista de productos
-
----
-
-## 🛠 Tecnologías utilizadas - Entrega 2
-
-| Tecnología      | Uso principal                       |
-| --------------- | ----------------------------------- |
-| Express         | Servidor web/API                    |
-| Handlebars      | Motor de vistas                     |
-| Mongoose        | ODM para MongoDB                    |
-| express-session | Sessions de usuario/carrito         |
-| connect-mongo   | Persistencia de sessions en MongoDB |
-| dotenv          | Configuración segura                |
-| Socket.io       | (opcional) tiempo real en productos |
-
----
-
-## 🧪 Datos de prueba recomendados
-
-> ⚠️ Ahora los datos se gestionan 100% en MongoDB (`coderbackend`).
-> Ya no se usan ni `products.json` ni `carts.json`.  
-> Podés cargar productos desde la API o scripts de carga inicial.
-
-### 📁 `.env`
+1. Variables de entorno:
 
 ```env
 PORT=8080
 MONGO_URI=mongodb+srv://<usuario>:<password>@<cluster>.mongodb.net/coderbackend
-SESSION_SECRET=tuSecretoUltraPro
+JWT_SECRET=tuJWTSecreto
 ```
 
----
+2. Instalar deps y correr:
 
-## 🛠 Requisitos técnicos cumplidos - Entrega 2
+```bash
+npm install
+npm run dev
+```
 
-### ✅ Funcionalidades básicas
+## Estructura relevante
 
-- Servidor Express escuchando en puerto 8080
-- Rutas `/api/products` y `/api/carts` usando router de Express
-- Manejo completo de productos: GET, POST, PUT, DELETE
-- Manejo de carritos: crear, consultar, agregar productos
-- Persistencia con sistema de archivos (`products.json`, `carts.json`)
-- ID autogenerado para productos y carritos
+- `src/models/user.model.js`: esquema de usuario.
+- `src/config/passport.config.js`: estrategias Local y JWT.
+- `src/routes/sessions.router.js`: registro, login, current, logout.
+- `app.js`: inicializa Passport y cookies; expone `/api/sessions`.
+- `src/middlewares/ensureCart.js`: garantiza un carrito en `req.session.cartId`.
+- Vistas: `src/views/*` con Bootstrap y `partials/menu`.
 
-### ✅ Nuevas funcionalidades - Entrega 2
+## Uso rápido de la API
 
-- Motor de plantillas Handlebars configurado
-- Vistas dinámicas para mostrar productos
-- Socket.io para actualizaciones en tiempo real
-- Variables de entorno con dotenv
-- Arquitectura modular y escalable
-- Manejo profesional de errores
-- Código documentado y organizado
+- Registro
 
-### 🛠 Requisitos técnicos cumplidos - Entrega Final
+```http
+POST /api/sessions/register
+Content-Type: application/json
+{
+  "first_name": "Ada",
+  "last_name": "Lovelace",
+  "email": "ada@example.com",
+  "password": "secret",
+  "age": 28
+}
+```
 
-- Persistencia principal en MongoDB (Mongoose)
-- API RESTful profesional para productos y carritos
-- Filtros, orden y paginación avanzada en productos
-- Populate de productos en carritos
-- Vistas Handlebars modernas para productos y carrito
-- Carrito único por usuario (session)
-- Código modular, limpio y documentado
+- Login (setea cookie JWT `token` y sesión para vistas)
 
----
+```http
+POST /api/sessions/login
+Content-Type: application/json
+{ "email": "ada@example.com", "password": "secret" }
+```
 
-## 🚧 Próximas funcionalidades
+- Usuario actual (JWT)
 
-🔜 **Autenticación:** Sistema de usuarios  
-🔜 **Validaciones:** Middleware de validación  
-🔜 **Testing:** Suite de pruebas unitarias
+```http
+GET /api/sessions/current
+Cookie: token=<jwt>
+```
 
----
+## Notas de diseño
 
-## 📬 Autor
+- El `JWT` se entrega en cookie `httpOnly` para mitigar XSS. La validación se realiza con `passport-jwt` leyendo `req.cookies.token`.
+- Se conserva `express-session` para carrito y renderizado SSR (no se eliminó lo que ya funcionaba).
+- `ensureCart` mantiene `req.session.cartId` y se muestra acceso a `/carts/{{cartId}}` en el menú.
 
-Desarrollado por **Nicolás Stocchero**  
-**Entrega Final** para el curso **Programación Backend I: Desarrollo Avanzado de Backend - Coderhouse**
+## Próximos pasos
 
----
-
-## 📄 Licencia
-
-Este proyecto está licenciado bajo la **Licencia MIT**.  
-Podés usarlo, modificarlo y distribuirlo libremente.
+- Incorporar autorización por `role` en endpoints de administración.
+- Tests de integración de sesiones y vistas.
