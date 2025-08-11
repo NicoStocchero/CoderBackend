@@ -1,4 +1,3 @@
-import { Router } from "express";
 import {
   getAllProducts,
   getProductById,
@@ -6,8 +5,9 @@ import {
   updateProduct,
   deleteProduct,
 } from "../controller/products.controller.js";
+import { CustomRouter } from "./router.js";
 
-const router = Router();
+const router = new CustomRouter();
 
 /**
  * GET /api/products
@@ -39,4 +39,4 @@ router.put("/:pid", updateProduct);
  */
 router.delete("/:pid", deleteProduct);
 
-export default router;
+export default router.getRouter();

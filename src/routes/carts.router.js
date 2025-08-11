@@ -1,4 +1,3 @@
-import { Router } from "express";
 import {
   createCart,
   getCartById,
@@ -8,8 +7,9 @@ import {
   clearCart,
   updateCartProducts,
 } from "../controller/cart.controller.js";
+import { CustomRouter } from "./router.js";
 
-const router = Router();
+const router = new CustomRouter();
 
 /**
  * POST /api/carts
@@ -54,4 +54,4 @@ router.delete("/:cid", clearCart);
  */
 router.put("/:cid", updateCartProducts);
 
-export default router;
+export default router.getRouter();
