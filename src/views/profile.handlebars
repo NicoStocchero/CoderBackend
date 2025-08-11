@@ -1,0 +1,80 @@
+<div class="row justify-content-center">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow">
+      <div class="card-header bg-primary text-white">
+        <h2 class="mb-0 text-center">
+          <i class="bi bi-person-circle"></i>
+          User Profile
+        </h2>
+      </div>
+      <div class="card-body">
+        <div class="row">
+          <div class="col-md-4 text-center mb-3">
+            <div
+              class="bg-light rounded-circle d-inline-flex align-items-center justify-content-center"
+              style="width: 120px; height: 120px;"
+            >
+              <i
+                class="bi bi-person"
+                style="font-size: 3rem; color: #6c757d;"
+              ></i>
+            </div>
+          </div>
+          <div class="col-md-8">
+            <div class="row">
+              <div class="col-sm-6 mb-3">
+                <label class="form-label fw-bold">First Name</label>
+                <p class="form-control-plaintext">{{user.first_name}}</p>
+              </div>
+              <div class="col-sm-6 mb-3">
+                <label class="form-label fw-bold">Last Name</label>
+                <p class="form-control-plaintext">{{user.last_name}}</p>
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Email</label>
+              <p class="form-control-plaintext">{{user.email}}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Age</label>
+              <p class="form-control-plaintext">{{user.age}}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">User ID</label>
+              <p class="form-control-plaintext">{{user._id}}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Account Created</label>
+              <p class="form-control-plaintext">{{#if
+                  user.createdAt
+                }}{{formatDate user.createdAt}}{{else}}N/A{{/if}}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Role</label>
+              <p class="form-control-plaintext">{{user.role}}</p>
+            </div>
+            <div class="mb-3">
+              <label class="form-label fw-bold">Cart</label>
+              <p class="form-control-plaintext">{{#if
+                  user.cart
+                }}{{user.cart}}{{else}}N/A{{/if}}</p>
+            </div>
+          </div>
+        </div>
+
+        <hr class="my-4" />
+
+        <div class="d-grid gap-2 d-md-flex justify-content-md-center">
+          <a href="/" class="btn btn-outline-primary">
+            <i class="bi bi-house"></i>
+            Back to Home
+          </a>
+          <a href="/logout" class="btn btn-outline-danger">
+            <i class="bi bi-box-arrow-right"></i>
+            Logout
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

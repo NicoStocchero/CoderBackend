@@ -5,46 +5,42 @@
 />
 
 <div class="container">
-  <h1 class="main-title"><i class="fa-solid fa-cart-shopping"></i>
-    Mi Carrito</h1>
+  <h1 class="mb-4"><i class="fa-solid fa-cart-shopping"></i> Mi Carrito</h1>
 
   {{#if cart.products.length}}
-    <ul class="product-list">
+    <div class="list-group mb-3">
       {{#each cart.products}}
-        <li class="product-card">
-          <div class="product-info">
-            <h2 class="product-title">{{this.product.title}}</h2>
-            <div class="product-meta">
-              <span>Precio:
-                <span class="price">{{formatCurrency
-                    this.product.price
-                  }}</span></span>
-              <span>Cantidad: {{this.quantity}}</span>
-              <span>Subtotal:
-                <strong class="price">{{formatCurrency
-                    (multiply this.product.price this.quantity)
-                  }}</strong></span>
-            </div>
+        <div class="list-group-item d-flex justify-content-between align-items-center">
+          <div>
+            <h5 class="mb-1">{{this.product.title}}</h5>
+            <small class="text-muted">Precio: {{formatCurrency this.product.price}} • Cantidad: {{this.quantity}}</small>
           </div>
-          <form method="POST" action="/api/carts/{{../cart._id}}/products/{{this.product._id}}?_method=DELETE">
-            <button type="submit" class="btn btn-danger">
-              <i class="fa-solid fa-trash"></i>
-            </button>
-          </form>
-        </li>
+          <div class="d-flex align-items-center gap-3">
+            <span class="fw-bold">Subtotal: {{formatCurrency (multiply this.product.price this.quantity)}}</span>
+            <form method="POST" action="/api/carts/{{../cart._id}}/products/{{this.product._id}}?_method=DELETE">
+              <button type="submit" class="btn btn-outline-danger btn-sm">
+                <i class="fa-solid fa-trash"></i>
+              </button>
+            </form>
+          </div>
+        </div>
       {{/each}}
-    </ul>
+    </div>
 
-    <div class="total-row">
-      <span>Total:</span>
-      <span class="price"><strong>{{formatCurrency total}}</strong></span>
+    <div class="d-flex justify-content-end">
+      <div class="card">
+        <div class="card-body d-flex align-items-center gap-3">
+          <span class="fs-5">Total:</span>
+          <span class="fs-4 fw-bold text-success">{{formatCurrency total}}</span>
+        </div>
+      </div>
     </div>
   {{else}}
     <p>No hay productos en este carrito.</p>
   {{/if}}
 
-  <div class="button-container" style="margin-top:2rem;">
-    <a href="/products" class="btn btn-secondary">
+  <div class="mt-4">
+    <a href="/products" class="btn btn-outline-secondary">
       <i class="fa-solid fa-arrow-left"></i>
       Seguir comprando
     </a>

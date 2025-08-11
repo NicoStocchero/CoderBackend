@@ -1,43 +1,34 @@
-<div class="container detail-view">
-  <div class="product-header">
-    <h1 class="product-title">
-      {{product.title}}
-    </h1>
-  </div>
-
-  <div class="product-detail-card">
-    <div class="product-detail-info">
-      <p class="desc">
-        {{product.description}}
-      </p>
-      <div class="meta-row">
-        <span class="meta-label">Precio:</span>
-        <span class="meta-value price">{{formatCurrency product.price}}</span>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow">
+        <div class="card-body">
+          <h2 class="card-title">{{product.title}}</h2>
+          <p class="card-text">{{product.description}}</p>
+          <div class="d-flex flex-wrap gap-3 align-items-center mb-3">
+            <span class="badge bg-secondary"><i class="fa-solid fa-tag"></i>
+              {{product.category}}</span>
+            <span class="fs-4 fw-bold text-primary">{{formatCurrency
+                product.price
+              }}</span>
+            <span class="text-muted">Stock: {{product.stock}}</span>
+          </div>
+          <div class="d-flex gap-2">
+            <button
+              id="addToCartBtn"
+              class="btn btn-primary"
+              data-product-id="{{product._id}}"
+            >
+              <i class="fa-solid fa-cart-plus"></i>
+              Agregar al carrito
+            </button>
+            <a href="/products" class="btn btn-outline-secondary">
+              <i class="fa-solid fa-arrow-left"></i>
+              Volver a productos
+            </a>
+          </div>
+        </div>
       </div>
-      <div class="meta-row">
-        <span class="meta-label">Categoría:</span>
-        <span class="meta-value category"><i class="fa-solid fa-tag"></i>
-          {{product.category}}</span>
-      </div>
-      <div class="meta-row">
-        <span class="meta-label">Stock:</span>
-        <span class="meta-value stock">{{product.stock}}</span>
-      </div>
-    </div>
-
-    <div class="product-detail-actions">
-      <button
-        id="addToCartBtn"
-        class="btn btn-cart"
-        data-product-id="{{product._id}}"
-      >
-        <i class="fa-solid fa-cart-plus"></i>
-        Agregar al carrito
-      </button>
-      <a href="/products" class="btn btn-secondary">
-        <i class="fa-solid fa-arrow-left"></i>
-        Volver a productos
-      </a>
     </div>
   </div>
 </div>

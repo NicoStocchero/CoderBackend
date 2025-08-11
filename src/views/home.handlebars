@@ -1,14 +1,73 @@
-<!-- Contenedor principal de la vista estática -->
-<div class="container">
-  <h1>Lista de productos estáticos</h1>
+{{#if user}}
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h4 text-center mb-3">Welcome back,
+            {{user.first_name}}!</h2>
+          <p class="text-center text-muted mb-4">Quick actions</p>
 
-  <!-- Lista de productos estáticos -->
-  <ul class="product-list">
-    {{#each products}}
-      <li class="product-item">
-        <strong>{{title}}</strong>
-        <span>${{price}}</span>
-      </li>
-    {{/each}}
-  </ul>
-</div>
+          <div class="row g-3">
+            <div class="col-md-4">
+              <a href="/products" class="btn btn-primary w-100">
+                <i class="bi bi-box me-1"></i>
+                Browse products
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/carts/{{cartId}}" class="btn btn-outline-primary w-100">
+                <i class="bi bi-cart me-1"></i>
+                View cart
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/profile" class="btn btn-outline-secondary w-100">
+                <i class="bi bi-person me-1"></i>
+                Profile
+              </a>
+            </div>
+          </div>
+
+          <div class="mt-4 text-center">
+            <a href="/logout" class="btn btn-outline-secondary">
+              <i class="bi bi-box-arrow-right me-1"></i>
+              Logout
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{{else}}
+  <div class="row justify-content-center">
+    <div class="col-lg-8">
+      <div class="card shadow-sm">
+        <div class="card-body">
+          <h2 class="h4 text-center mb-3">Welcome</h2>
+          <p class="text-center text-muted mb-4">Choose how you want to continue</p>
+
+          <div class="row g-3">
+            <div class="col-md-4">
+              <a href="/products" class="btn btn-primary w-100">
+                <i class="bi bi-box me-1"></i>
+                Browse products
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/register" class="btn btn-primary w-100">
+                <i class="bi bi-person-plus me-1"></i>
+                Register
+              </a>
+            </div>
+            <div class="col-md-4">
+              <a href="/login" class="btn btn-outline-primary w-100">
+                <i class="bi bi-box-arrow-in-right me-1"></i>
+                Login
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{{/if}}
