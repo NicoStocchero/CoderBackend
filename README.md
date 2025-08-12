@@ -104,7 +104,7 @@ npm run dev
 - `src/controller/sessions.controller.js`: controladores de sesiones (modularización de `/api/sessions`).
 - `src/routes/router.js`: `CustomRouter` reutilizado en todos los routers.
 - `app.js`: inicializa Passport y cookies; expone `/api/sessions`.
-- `src/middlewares/ensureCart.js`: garantiza un carrito en `req.session.cartId`.
+- `src/middlewares/ensureCart.js`: garantiza un carrito persistiendo `cartId` en cookie httpOnly.
 - Vistas: `src/views/*` con Bootstrap y `partials/menu`.
 
 ---
@@ -155,8 +155,8 @@ Cookie: token=<jwt>
 ## 🧠 Notas de diseño
 
 - El `JWT` se entrega en cookie `httpOnly` para mitigar XSS. La validación se realiza con `passport-jwt` leyendo `req.cookies.token`.
-- Se conserva `express-session` para carrito y renderizado SSR (no se eliminó lo que ya funcionaba).
-- `ensureCart` mantiene `req.session.cartId` y se muestra acceso a `/carts/{{cartId}}` en el menú.
+- Se removió `express-session`. Autenticación es JWT-only vía cookie `token`.
+- `ensureCart` usa cookie `cartId` y se muestra acceso a `/carts/{{cartId}}` en el menú.
 
 ---
 

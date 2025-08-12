@@ -1,7 +1,7 @@
 # API de Productos y Carritos 🛒
 
-Este proyecto corresponde a la **Entrega Final de Programación Backend I (Coderhouse)**.  
-Servidor avanzado que permite gestionar productos y carritos con persistencia en **MongoDB**, vistas dinámicas, paginación profesional, sesiones y gestión de carritos real como en un e-commerce moderno.
+Este documento corresponde a la **Entrega de Programación Backend I (histórico)**.  
+Actualmente el proyecto usa autenticación **JWT-only** y no emplea sesiones de Express. Algunas menciones a sesiones en este archivo son históricas.
 
 ---
 
@@ -10,7 +10,7 @@ Servidor avanzado que permite gestionar productos y carritos con persistencia en
 ✅ **MongoDB como persistencia principal**  
 ✅ **Consultas profesionales:** Filtros, paginación y orden en productos  
 ✅ **Carrito profesional:** actualizar, vaciar, eliminar y populate  
-✅ **Carrito único por usuario (sessions)**  
+✅ **Carrito del usuario** (hoy persistido vía cookie `cartId`)
 ✅ **Vistas web modernas:** Productos, detalle y carrito  
 ✅ **Handlebars:** Vistas dinámicas y limpias  
 ✅ **Socket.io:** Actualizaciones en tiempo real  
@@ -136,15 +136,14 @@ El servidor estará disponible en: **http://localhost:8080**
 
 ## 🛠 Tecnologías utilizadas - Entrega 2
 
-| Tecnología      | Uso principal                       |
-| --------------- | ----------------------------------- |
-| Express         | Servidor web/API                    |
-| Handlebars      | Motor de vistas                     |
-| Mongoose        | ODM para MongoDB                    |
-| express-session | Sessions de usuario/carrito         |
-| connect-mongo   | Persistencia de sessions en MongoDB |
-| dotenv          | Configuración segura                |
-| Socket.io       | (opcional) tiempo real en productos |
+| Tecnología   | Uso principal                       |
+| ------------ | ----------------------------------- |
+| Express      | Servidor web/API                    |
+| Handlebars   | Motor de vistas                     |
+| Mongoose     | ODM para MongoDB                    |
+| JWT (cookie) | Autenticación y autorización        |
+| dotenv       | Configuración segura                |
+| Socket.io    | (opcional) tiempo real en productos |
 
 ---
 
@@ -159,7 +158,7 @@ El servidor estará disponible en: **http://localhost:8080**
 ```env
 PORT=8080
 MONGO_URI=mongodb+srv://<usuario>:<password>@<cluster>.mongodb.net/coderbackend
-SESSION_SECRET=tuSecretoUltraPro
+# Para JWT-only ya no se usa SESSION_SECRET
 ```
 
 ---
