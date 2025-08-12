@@ -9,14 +9,15 @@ import { createServer } from "http";
 import { productModel } from "./src/models/products.model.js";
 import dotenv from "dotenv";
 import connectDB from "./src/config/database.js";
-import session from "express-session";
 import { ensureCart } from "./src/middlewares/ensureCart.js";
-import MongoStore from "connect-mongo";
 import cookieParser from "cookie-parser";
 import passport from "passport";
 import { initializePassport } from "./src/config/passport.config.js";
 import sessionsRouter from "./src/routes/sessions.router.js";
 import usersRouter from "./src/routes/users.router.js";
+import jwt from "jsonwebtoken";
+import { TOKEN_COOKIE } from "./src/controller/sessions.controller.js";
+import cors from "cors";
 
 dotenv.config();
 
@@ -25,17 +26,29 @@ await connectDB();
 
 const app = express();
 
-// Configuración de express-session (después de app = express())
+// Confiar en proxy en producción (requerido para cookies secure tras proxy)
+if (process.env.NODE_ENV === "production") {
+  app.set("trust proxy", 1);
+}
+
+// CORS (habilitar cookies cross-site cuando haya frontend separado)
+const allowedOrigins = (
+  process.env.CORS_ORIGIN || "http://localhost:5173,http://localhost:3000"
+)
+  .split(",")
+  .map((o) => o.trim())
+  .filter(Boolean);
+
 app.use(
-  session({
-    secret: "miSuperClaveSecreta123", // Cambiar en producción
-    resave: false,
-    saveUninitialized: true,
-    cookie: { maxAge: 1000 * 60 * 60 }, // 1 hora de sesión
-    store: MongoStore.create({
-      mongoUrl: process.env.MONGO_URI,
-      dbName: "coderbackend",
-    }),
+  cors({
+    origin: (origin, callback) => {
+      if (!origin) return callback(null, true); // allow non-browser clients
+      return allowedOrigins.includes(origin)
+        ? callback(null, true)
+        : callback(new Error("Not allowed by CORS"));
+    },
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   })
 );
 
@@ -51,13 +64,27 @@ app.use(express.static("public"));
 initializePassport();
 app.use(passport.initialize());
 
-// Middleware para asegurar que el carrito exista
+// Middleware para asegurar que el carrito exista (sin sesiones, via cookie)
 app.use(ensureCart);
 
-// Exponer datos comunes a las vistas
+// Exponer datos comunes a las vistas a partir de cookies/JWT
 app.use((req, res, next) => {
-  res.locals.user = req.session.user || null;
-  res.locals.cartId = req.session.cartId || null;
+  const JWT_SECRET = process.env.JWT_SECRET || "devSecretChangeMe";
+  const token = req.cookies?.[TOKEN_COOKIE];
+  if (token) {
+    try {
+      const payload = jwt.verify(token, JWT_SECRET);
+      req.user = payload.user;
+      res.locals.user = payload.user;
+    } catch {
+      // Token inválido/expirado: limpiar cookie para evitar loops
+      res.clearCookie(TOKEN_COOKIE);
+      res.locals.user = null;
+    }
+  } else {
+    res.locals.user = null;
+  }
+  res.locals.cartId = req.cookies?.cartId || null;
   next();
 });
 
