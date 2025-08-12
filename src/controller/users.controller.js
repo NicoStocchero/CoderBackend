@@ -4,8 +4,8 @@ import { cartModel } from "../models/cart.model.js";
 
 /**
  * Sanitiza el usuario para evitar exponer datos sensibles
- * @param {Object} doc - El documento a sanitizar
- * @returns {Object} - El documento sanitizado
+ * @param {mongoose.Schema} doc - El documento a sanitizar
+ * @returns {mongoose.Schema} - El documento sanitizado
  */
 const sanitize = (doc) => {
   if (!doc) return null;
@@ -17,9 +17,9 @@ const sanitize = (doc) => {
 
 /**
  * Obtiene todos los usuarios
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
- * @returns {Object} - Los usuarios
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
+ * @returns {void} - Los usuarios
  */
 export const getUsers = async (req, res) => {
   try {
@@ -36,9 +36,9 @@ export const getUsers = async (req, res) => {
 
 /**
  * Obtiene un usuario por su ID
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
- * @returns {Object} - El usuario
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
+ * @returns {void} - El usuario
  */
 export const getUserById = async (req, res) => {
   try {
@@ -55,9 +55,9 @@ export const getUserById = async (req, res) => {
 
 /**
  * Crea un nuevo usuario
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
- * @returns {Object} - El usuario creado
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
+ * @returns {void} - El usuario creado
  */
 export const createUser = async (req, res) => {
   try {
@@ -93,9 +93,9 @@ export const createUser = async (req, res) => {
 
 /**
  * Actualiza un usuario
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
- * @returns {Object} - El usuario actualizado
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
+ * @returns {void} - El usuario actualizado
  */
 export const updateUser = async (req, res) => {
   try {
@@ -118,9 +118,9 @@ export const updateUser = async (req, res) => {
 
 /**
  * Elimina un usuario
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
- * @returns {Object} - El usuario eliminado
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
+ * @returns {void} - El usuario eliminado
  */
 export const deleteUser = async (req, res) => {
   try {

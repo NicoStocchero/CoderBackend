@@ -1,6 +1,13 @@
 import { Router } from "express";
 import { customResponseMiddleware } from "../middlewares/response.js";
 
+/**
+ * Clase para crear rutas personalizadas
+ * @class
+ * @param {string} path - La ruta de la API
+ * @param {Function[]} middlewares - Los middlewares de la ruta
+ * @returns {Router} - La ruta personalizada
+ */
 export class CustomRouter {
   constructor() {
     this.router = Router();

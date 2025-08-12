@@ -2,14 +2,14 @@ import mongoose from "mongoose";
 
 /**
  * Esquema de usuario
- * @param {Object} first_name - El nombre del usuario
- * @param {Object} last_name - El apellido del usuario
- * @param {Object} email - El correo electrónico del usuario
- * @param {Object} age - La edad del usuario
- * @param {Object} password - La contraseña del usuario
- * @param {Object} cart - El carrito del usuario
- * @param {Object} role - El rol del usuario
- * @returns {Object} - El usuario
+ * @param {string} first_name - El nombre del usuario
+ * @param {string} last_name - El apellido del usuario
+ * @param {string} email - El correo electrónico del usuario
+ * @param {number} age - La edad del usuario
+ * @param {string} password - La contraseña del usuario
+ * @param {mongoose.Schema.Types.ObjectId} cart - El carrito del usuario
+ * @param {string} role - El rol del usuario
+ * @returns {mongoose.Schema} - El usuario
  */
 const userSchema = new mongoose.Schema(
   {

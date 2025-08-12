@@ -7,7 +7,7 @@ import { cartModel } from "../models/cart.model.js";
 
 /**
  * Inicializa Passport
- * @returns {void}
+ * @returns {void} - La inicialización de Passport
  */
 export const initializePassport = () => {
   /**

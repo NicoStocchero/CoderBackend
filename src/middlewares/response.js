@@ -1,7 +1,7 @@
 /**
  * Middleware global para respuestas personalizadas
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
  * @param {Function} next - La función para continuar
  */
 export const customResponseMiddleware = (req, res, next) => {

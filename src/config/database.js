@@ -7,6 +7,7 @@ dotenv.config();
  * Configuración de la conexión a MongoDB
  * @returns {Promise} - La promesa de la conexión a MongoDB
  * @throws {Error} - El error de la conexión a MongoDB
+ * @returns {void} - La conexión a MongoDB
  */
 export const connectDB = async () => {
   try {

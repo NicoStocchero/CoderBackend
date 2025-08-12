@@ -1,6 +1,18 @@
 import fs from "fs/promises";
 
 /**
+ * @typedef {Object} Producto
+ * @property {string} id - El ID del producto
+ * @property {string} title - El título del producto
+ * @property {string} description - La descripción del producto
+ * @property {number} price - El precio del producto
+ * @property {boolean} status - El estado del producto
+ * @property {number} stock - El stock del producto
+ * @property {string} category - La categoría del producto
+ * @property {string[]} thumbnails - Las miniaturas del producto
+ */
+
+/**
  * Archivo obsoleto, no se usa
  * Se usa el modelo de producto de mongoose
  * @param {string} rutaArchivo - La ruta del archivo
@@ -13,7 +25,7 @@ export default class ProductManager {
 
   /**
    * Lee el archivo y retorna el array de productos
-   * @returns {Array} - Los productos
+   * @returns {Object[]} - Los productos
    */
   async getAll() {
     try {
@@ -38,8 +50,8 @@ export default class ProductManager {
 
   /**
    * Agrega un nuevo producto con ID autoincremental
-   * @param {Object} producto - El producto a agregar
-   * @returns {Object} - El producto agregado
+   * @param {Producto} producto - El producto a agregar
+   * @returns {Producto} - El producto agregado
    */
   async addProduct(producto) {
     const productos = await this.getAll();
@@ -69,8 +81,8 @@ export default class ProductManager {
   /**
    * Actualiza un producto existente (sin tocar el ID)
    * @param {string} id - El ID del producto
-   * @param {Object} campos - Los campos a actualizar
-   * @returns {Object} - El producto actualizado
+   * @param {Partial<Producto>} campos - Los campos a actualizar
+   * @returns {Producto} - El producto actualizado
    */
   async updateProduct(id, campos) {
     const productos = await this.getAll();
@@ -96,7 +108,7 @@ export default class ProductManager {
   /**
    * Elimina un producto por su ID
    * @param {string} id - El ID del producto
-   * @returns {Object} - El producto eliminado
+   * @returns {Producto} - El producto eliminado
    */
   async deleteProduct(id) {
     const productos = await this.getAll();

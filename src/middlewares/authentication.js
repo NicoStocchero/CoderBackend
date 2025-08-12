@@ -2,7 +2,7 @@ import passport from "passport";
 
 /**
  * Middleware de autenticación basado en sesión
- * @param {Array} permission - Los roles permitidos
+ * @param {string[]} permission - Los roles permitidos
  * @returns {Function} - El middleware de autenticación
  */
 export const auth = (permission = []) => {

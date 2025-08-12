@@ -2,8 +2,8 @@ import { Schema, model } from "mongoose";
 
 /**
  * Esquema de carrito
- * @param {Object} products - Los productos del carrito
- * @returns {Object} - El carrito
+ * @param {mongoose.Schema.Types.ObjectId[]} products - Los productos del carrito
+ * @returns {mongoose.Schema} - El carrito
  */
 const cartSchema = new Schema(
   {

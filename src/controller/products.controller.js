@@ -2,9 +2,9 @@ import { productModel } from "../models/products.model.js";
 
 /**
  * Obtiene todos los productos con paginación y filtros
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
- * @returns {Object} - Los productos
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
+ * @returns {void} - Los productos
  */
 export const getAllProducts = async (req, res) => {
   try {
@@ -53,9 +53,9 @@ export const getAllProducts = async (req, res) => {
 
 /**
  * Obtiene un producto por su ID
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
- * @returns {Object} - El producto
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
+ * @returns {void} - El producto
  */
 export const getProductById = async (req, res) => {
   try {
@@ -69,9 +69,9 @@ export const getProductById = async (req, res) => {
 
 /**
  * Crea un nuevo producto
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
- * @returns {Object} - El producto creado
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
+ * @returns {void} - El producto creado
  */
 export const createProduct = async (req, res) => {
   try {
@@ -94,9 +94,9 @@ export const createProduct = async (req, res) => {
 
 /**
  * Actualiza un producto por su ID
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
- * @returns {Object} - El producto actualizado
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
+ * @returns {void} - El producto actualizado
  */
 export const updateProduct = async (req, res) => {
   try {
@@ -116,9 +116,9 @@ export const updateProduct = async (req, res) => {
 
 /**
  * Elimina un producto por su ID
- * @param {Object} req - La solicitud HTTP
- * @param {Object} res - La respuesta HTTP
- * @returns {Object} - El producto eliminado
+ * @param {Request} req - La solicitud HTTP
+ * @param {Response} res - La respuesta HTTP
+ * @returns {void} - El producto eliminado
  */
 export const deleteProduct = async (req, res) => {
   try {

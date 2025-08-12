@@ -10,6 +10,7 @@ const MONGO_URI = process.env.MONGO_URI;
 
 /**
  * Importa los productos desde el archivo JSON a la base de datos
+ * @returns {void} - La importación de los productos
  */
 const run = async () => {
   try {
