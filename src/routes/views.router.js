@@ -6,6 +6,7 @@ import {
   renderCartDetail,
 } from "../controller/views.controller.js";
 import { auth } from "../middlewares/authentication.js";
+import passport from "passport";
 import { CustomRouter } from "./router.js";
 
 const router = new CustomRouter();
@@ -24,15 +25,22 @@ router.get("/login", auth("public"), (req, res) => {
   res.render("login", { title: "Login" });
 });
 
-router.get("/profile", auth("user"), (req, res) => {
-  res.render("profile", { title: "Profile", user: req.session.user });
-});
+router.get(
+  "/profile",
+  passport.authenticate("current", { session: false }),
+  (req, res) => {
+    res.render("profile", { title: "Profile", user: req.user });
+  }
+);
 
-router.get("/logout", auth("user"), (req, res) => {
-  req.session.destroy(() => {
+router.get(
+  "/logout",
+  passport.authenticate("current", { session: false }),
+  (req, res) => {
+    res.clearCookie("token");
     res.redirect("/");
-  });
-});
+  }
+);
 
 // Productos y carritos
 router.get("/home", renderHome);

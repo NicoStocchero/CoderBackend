@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { customResponseMiddleware } from "../middlewares/response.js";
+import { customResponseMiddleware } from "../middlewares/response.js";
 
 /**
  * Clase para crear rutas personalizadas
@@ -9,9 +10,11 @@ import { customResponseMiddleware } from "../middlewares/response.js";
  * @returns {Router} - La ruta personalizada
  */
 export class CustomRouter {
-  constructor() {
+  constructor(useCustomResponses = true) {
     this.router = Router();
-    this.router.use(customResponseMiddleware);
+    if (useCustomResponses) {
+      this.router.use(customResponseMiddleware);
+    }
   }
 
   get(path, ...middlewares) {
