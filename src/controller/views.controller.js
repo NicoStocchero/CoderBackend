@@ -58,7 +58,7 @@ export const renderProductsList = async (req, res) => {
     page: result.page,
     query,
     sort,
-    cartId: req.session.cartId,
+    cartId: req.cookies.cartId,
   });
 };
 
@@ -76,7 +76,7 @@ export const renderProductDetail = async (req, res) => {
         .status(404)
         .render("error", { message: "Producto no encontrado" });
     }
-    res.render("productDetail", { product, cartId: req.session.cartId });
+    res.render("productDetail", { product, cartId: req.cookies.cartId });
   } catch {
     res.status(500).render("error", { message: "Error al cargar el producto" });
   }
@@ -106,7 +106,7 @@ export const renderCartDetail = async (req, res) => {
       0
     );
 
-    res.render("cartDetail", { cart, total, cartId: req.session.cartId });
+    res.render("cartDetail", { cart, total, cartId: req.cookies.cartId });
   } catch {
     res.status(500).render("error", { message: "Error al cargar el carrito" });
   }

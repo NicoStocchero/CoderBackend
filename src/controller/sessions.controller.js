@@ -38,23 +38,12 @@ export const loginController = async (req, res) => {
 
     res.cookie(TOKEN_COOKIE, token, {
       httpOnly: true,
-      sameSite: "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      secure: process.env.NODE_ENV === "production",
       maxAge: 24 * 60 * 60 * 1000,
     });
 
-    // Guardar datos del usuario en la sesión para vistas server-side
-    req.session.user = {
-      _id: safeUser._id,
-      first_name: safeUser.first_name,
-      last_name: safeUser.last_name,
-      email: safeUser.email,
-      role: safeUser.role || "user",
-      cart: safeUser.cart || null,
-      age: safeUser.age || null,
-      createdAt: safeUser.createdAt || null,
-    };
-
-    return res.json({ message: "Login successful", user: req.session.user });
+    return res.json({ message: "Login successful", user: safeUser });
   } catch (err) {
     return res.status(500).json({ message: "Login failed" });
   }
@@ -79,9 +68,5 @@ export const currentController = (req, res) => {
  */
 export const logoutController = (req, res) => {
   res.clearCookie(TOKEN_COOKIE);
-  if (req.session) {
-    req.session.destroy(() => res.json({ message: "Logged out" }));
-  } else {
-    res.json({ message: "Logged out" });
-  }
+  res.json({ message: "Logged out" });
 };
