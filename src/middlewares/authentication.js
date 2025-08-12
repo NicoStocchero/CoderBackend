@@ -16,16 +16,16 @@ export const auth = (permission = []) => {
       return next();
     }
 
-    if (!req.session.user) {
+    if (!req.user) {
       return res.status(401).send({ error: "Authentication required" });
     }
 
     // Si no hay roles definidos, solo verificar que esté autenticado
-    if (!req.session.user.role) {
+    if (!req.user.role) {
       return next();
     }
 
-    if (!permission.includes(req.session.user.role)) {
+    if (!permission.includes(req.user.role)) {
       return res.status(403).send({ error: "Forbidden" });
     }
 
