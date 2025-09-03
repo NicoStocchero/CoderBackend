@@ -18,6 +18,12 @@ import usersRouter from "./src/routes/users.router.js";
 import jwt from "jsonwebtoken";
 import { TOKEN_COOKIE } from "./src/controller/sessions.controller.js";
 import cors from "cors";
+import pino from "pino";
+import pinoHttp from "pino-http";
+import { randomUUID } from "crypto";
+import config from "./src/config/env.js";
+import helmet from "helmet";
+import compression from "compression";
 
 dotenv.config();
 
@@ -51,6 +57,25 @@ app.use(
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   })
 );
+
+// Logging HTTP con requestId para trazabilidad
+const logger = pino({ level: process.env.LOG_LEVEL || "info" });
+app.use(
+  pinoHttp({
+    logger,
+    genReqId: (req) => req.headers["x-request-id"] || randomUUID(),
+    customSuccessMessage: (req, res) =>
+      `${req.method} ${req.url} ${res.statusCode}`,
+  })
+);
+
+// Seguridad y performance
+app.use(
+  helmet({
+    crossOriginResourcePolicy: { policy: "cross-origin" },
+  })
+);
+app.use(compression());
 
 // Cookies (para JWT)
 app.use(cookieParser());
@@ -132,7 +157,7 @@ app.use("/", viewsRouter);
 
 // Middleware errores
 app.use((err, req, res, next) => {
-  console.error(err.stack);
+  req.log?.error({ err }, "Unhandled error");
   res
     .status(500)
     .json({ status: "error", message: "Error interno del servidor" });
@@ -167,7 +192,10 @@ io.on("connection", async (socket) => {
 });
 
 // Puerto
-const PORT = process.env.PORT || 8080;
+const PORT = config.PORT || process.env.PORT || 8080;
 httpServer.listen(PORT, "0.0.0.0", () => {
   console.log(`Servidor escuchando en http://localhost:${PORT}`);
 });
+
+// Export para tests de integración
+export { app };

@@ -6,7 +6,7 @@ import {
   renderCartDetail,
 } from "../controller/views.controller.js";
 import { auth } from "../middlewares/authentication.js";
-import passport from "passport";
+import { passportAuth } from "../middlewares/authentication.js";
 import { CustomRouter } from "./router.js";
 
 const router = new CustomRouter();
@@ -25,22 +25,19 @@ router.get("/login", auth("public"), (req, res) => {
   res.render("login", { title: "Login" });
 });
 
-router.get(
-  "/profile",
-  passport.authenticate("current", { session: false }),
-  (req, res) => {
-    res.render("profile", { title: "Profile", user: req.user });
-  }
-);
+router.get("/profile", passportAuth("current"), (req, res) => {
+  res.render("profile", { title: "Profile", user: req.user });
+});
 
-router.get(
-  "/logout",
-  passport.authenticate("current", { session: false }),
-  (req, res) => {
-    res.clearCookie("token");
-    res.redirect("/");
-  }
-);
+router.get("/logout", passportAuth("current"), (req, res) => {
+  res.clearCookie("token");
+  res.redirect("/");
+});
+
+// Vista de restablecimiento de contraseña (token por query)
+router.get("/reset-password", auth("public"), (req, res) => {
+  res.render("resetPassword", { title: "Restablecer contraseña" });
+});
 
 // Productos y carritos
 router.get("/home", renderHome);

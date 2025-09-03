@@ -1,6 +1,5 @@
 import { Router } from "express";
 import { customResponseMiddleware } from "../middlewares/response.js";
-import { customResponseMiddleware } from "../middlewares/response.js";
 
 /**
  * Clase para crear rutas personalizadas

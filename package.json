@@ -5,7 +5,7 @@
   "scripts": {
     "start": "node app.js",
     "dev": "nodemon app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "NODE_ENV=test node --test"
   },
   "keywords": [],
   "author": "Nicolás Stocchero",
@@ -13,24 +13,33 @@
   "description": "API de productos y carritos - Primera entrega Coderhouse",
   "dependencies": {
     "bcrypt": "^6.0.0",
-    "cors": "^2.8.5",
+    "compression": "^1.8.1",
     "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^17.1.0",
     "express": "^5.1.0",
     "express-handlebars": "^8.0.3",
+    "express-rate-limit": "^8.0.1",
+    "helmet": "^8.1.0",
     "moment": "^2.30.1",
     "mongodb": "^6.17.0",
     "mongoose": "^8.16.2",
     "mongoose-paginate-v2": "^1.9.1",
+    "nodemailer": "^7.0.5",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "passport-local": "^1.0.0",
+    "pino": "^9.8.0",
+    "pino-http": "^10.5.0",
     "socket.io": "^4.8.1",
-    "sweetalert2": "^11.22.3"
+    "sweetalert2": "^11.22.3",
+    "zod": "^4.0.17"
   },
   "devDependencies": {
     "eslint": "^9.27.0",
+    "mongodb-memory-server": "^10.2.0",
     "nodemon": "^3.1.10",
-    "prettier": "^3.5.3"
+    "prettier": "^3.5.3",
+    "supertest": "^7.1.4"
   }
 }

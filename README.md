@@ -1,21 +1,20 @@
-# API de Usuarios, Autenticación y Autorización (Backend II)
+# E-commerce Backend (Entrega Final - Backend II)
 
-Este proyecto corresponde a la Entrega Nº 1 de Backend II (Coderhouse).
-Se implementa CRUD de usuarios, autenticación con JWT, y validación de sesión.
+Servidor de e-commerce con arquitectura profesional: JWT-only, Repository + Service, DTOs, autorización por roles, recuperación de contraseña por email, compra con tickets y buenas prácticas (CORS, Helmet, rate limiting, etc.).
 
 ---
 
-## 🆕 Nuevas funcionalidades
+## 🆕 Funcionalidades Clave
 
-✅ Modelo `User` con todos los campos requeridos (incluye `age`, `role`, `cart`)  
-✅ Contraseñas encriptadas con `bcrypt.hashSync`  
-✅ Estrategias de Passport: Local (register/login) y JWT (current)  
-✅ Login con JWT (cookie httpOnly)  
-✅ Endpoint `/api/sessions/current` para validar token y devolver el usuario  
-✅ Vistas y menú en Bootstrap, con flujo de login/registro  
-✅ Routers usando `CustomRouter` y controladores modularizados
+- **JWT-only**: login, current y logout sin sesiones de Express
+- **Repository + Service**: separación de acceso a datos y lógica
+- **DTO de Usuario**: `/api/sessions/current` no expone campos sensibles
+- **Autorización por roles**: `admin` gestiona productos/usuarios, `user` gestiona su carrito y compra
+- **Recuperación de contraseña**: email con token (1h), no permite repetir la anterior
+- **Compra con ticket**: verifica stock, descuenta, genera `Ticket` y devuelve ítems no procesados
+- **Buenas prácticas**: CORS, Helmet, Compression, rate limiting (login/forgot), cookies seguras
 
-## 📁 Estructura del proyecto (Actualizada)
+## 📁 Estructura del proyecto
 
 ```
 CoderBackend/
@@ -28,11 +27,25 @@ CoderBackend/
 │   ├── controller/
 │   │   ├── products.controller.js
 │   │   ├── cart.controller.js
+│   │   ├── users.controller.js
 │   │   └── sessions.controller.js
+│   ├── repositories/
+│   │   ├── product.repository.js
+│   │   ├── cart.repository.js
+│   │   └── user.repository.js
+│   ├── services/
+│   │   ├── product.service.js
+│   │   ├── cart.service.js
+│   │   ├── user.service.js
+│   │   ├── purchase.service.js
+│   │   └── mail.service.js
+│   ├── dto/
+│   │   └── user.dto.js
 │   ├── models/
 │   │   ├── products.model.js
 │   │   ├── cart.model.js
-│   │   └── user.model.js
+│   │   ├── user.model.js
+│   │   └── ticket.model.js
 │   ├── views/
 │   │   ├── layouts/main.handlebars
 │   │   ├── partials/menu.handlebars
@@ -43,7 +56,10 @@ CoderBackend/
 │   │   └── register.handlebars
 │   ├── middlewares/
 │   │   ├── authentication.js
-│   │   └── ensureCart.js
+│   │   ├── ensureCart.js
+│   │   ├── authentication.js
+│   │   ├── authorization.js
+│   │   └── rateLimit.js
 │   └── config/
 │       ├── database.js
 │       └── passport.config.js
@@ -67,8 +83,18 @@ CoderBackend/
 
 ```env
 PORT=8080
+NODE_ENV=development
 MONGO_URI=mongodb+srv://<usuario>:<password>@<cluster>.mongodb.net/coderbackend
-JWT_SECRET=tuJWTSecreto
+JWT_SECRET=tu_jwt_secreto
+RESET_SECRET=tu_reset_secreto
+APP_URL=http://localhost:8080
+CORS_ORIGIN=http://localhost:5173,http://localhost:3000
+# SMTP opcional
+SMTP_HOST=smtp.example.com
+SMTP_PORT=587
+SMTP_USER=user@example.com
+SMTP_PASS=password
+MAIL_FROM="Ecommerce <no-reply@example.com>"
 ```
 
 2. Instalar deps y correr:
@@ -98,14 +124,12 @@ npm run dev
 
 ## 📦 Módulos clave
 
-- `src/models/user.model.js`: esquema de usuario.
-- `src/config/passport.config.js`: estrategias Local y JWT.
-- `src/routes/sessions.router.js`: registro, login, current, logout.
-- `src/controller/sessions.controller.js`: controladores de sesiones (modularización de `/api/sessions`).
-- `src/routes/router.js`: `CustomRouter` reutilizado en todos los routers.
-- `app.js`: inicializa Passport y cookies; expone `/api/sessions`.
-- `src/middlewares/ensureCart.js`: garantiza un carrito persistiendo `cartId` en cookie httpOnly.
-- Vistas: `src/views/*` con Bootstrap y `partials/menu`.
+- `repositories/*`: acceso a datos (Mongoose encapsulado)
+- `services/*`: lógica de negocio (productos, carritos, usuarios, compras, mailing)
+- `dto/user.dto.js`: salida segura de usuario
+- `middlewares/authorization.js`: control por roles
+- `models/ticket.model.js`: tickets de compra
+- `services/purchase.service.js`: verificación de stock y generación de tickets
 
 ---
 
@@ -119,7 +143,7 @@ npm run dev
 
 ---
 
-## 📦 Endpoints API (Usuarios y Sesiones)
+## 🔐 Autenticación y Sesiones
 
 - Registro
 
@@ -135,7 +159,7 @@ Content-Type: application/json
 }
 ```
 
-- Login (setea cookie JWT `token` y sesión para vistas)
+- Login (setea cookie JWT `token`)
 
 ```http
 POST /api/sessions/login
@@ -154,34 +178,27 @@ Cookie: token=<jwt>
 
 ## 🧠 Notas de diseño
 
-- El `JWT` se entrega en cookie `httpOnly` para mitigar XSS. La validación se realiza con `passport-jwt` leyendo `req.cookies.token`.
-- Se removió `express-session`. Autenticación es JWT-only vía cookie `token`.
-- `ensureCart` usa cookie `cartId` y se muestra acceso a `/carts/{{cartId}}` en el menú.
+- JWT en cookie `httpOnly`; validación con `passport-jwt` leyendo `req.cookies.token`
+- Sin `express-session` (JWT-only). `ensureCart` persiste `cartId` en cookie
+- CORS con `credentials: true`; en producción `secure: true` + `sameSite: "none"`
+- Helmet y Compression habilitados; rate limit en login/forgot
 
 ---
 
-## 📄 Formato de entrega y criterios (Coderhouse)
+## 🧪 Endpoints destacados
 
-Entrega N° 1 – Consigna: CRUD de usuarios, autenticación y autorización sobre el ecommerce base.
+- Recuperación de contraseña
 
-### Criterios de evaluación
+  - `POST /api/sessions/forgot` → body `{ email }`
+  - `POST /api/sessions/reset` → body `{ token, password }`
 
-- Modelo de Usuario y Encriptación:
-  - `User` con campos: `first_name`, `last_name`, `email` (único), `age`, `password` (hash), `cart`, `role` (default `user`).
-  - Contraseña encriptada correctamente con `bcrypt.hashSync`.
-- Estrategias de Passport:
-  - Configuradas para registro/login (Local) y validación de token (JWT).
-  - Correcta autenticación/autorización de usuarios.
-- Sistema de Login y JWT:
-  - Login genera JWT válido y se asigna al usuario autenticado.
-  - Token JWT válido para acciones protegidas.
-- Estrategia “current” y endpoint `/api/sessions/current`:
-  - Valida el usuario logueado y devuelve datos asociados al JWT.
-  - Manejo de errores ante token inválido o inexistente.
+- Autorización por roles
 
-> Nota: Se conserva `README.Backend1.md` para la entrega del curso I.
+  - Productos (admin): `POST/PUT/DELETE /api/products`
+  - Usuarios (admin): `GET/POST/PUT/DELETE /api/users`
+  - Carritos (user): mutaciones de carrito y `POST /api/carts/:cid/purchase`
 
-## Próximos pasos
+- Compra y tickets
+  - `POST /api/carts/:cid/purchase` → `{ ticket, notProcessed }`
 
-- Incorporar autorización por `role` en endpoints de administración.
-- Tests de integración de sesiones y vistas.
+> El archivo `README.Backend1.md` queda como histórico de la entrega I.

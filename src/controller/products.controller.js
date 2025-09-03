@@ -1,4 +1,5 @@
-import { productModel } from "../models/products.model.js";
+import productService from "../services/product.service.js";
+import { ProductDTO } from "../dto/product.dto.js";
 
 /**
  * Obtiene todos los productos con paginación y filtros
@@ -9,34 +10,14 @@ import { productModel } from "../models/products.model.js";
 export const getAllProducts = async (req, res) => {
   try {
     const { limit = 10, page = 1, sort, query } = req.query;
-
-    const filter = {};
-    if (query) {
-      if (query === "disponibles") {
-        filter.stock = { $gt: 0 };
-      } else {
-        filter.category = query;
-      }
-    }
-
-    const sortOption =
-      sort === "asc" ? { price: 1 } : sort === "desc" ? { price: -1 } : {};
-
-    const options = {
-      page: parseInt(page),
-      limit: parseInt(limit),
-      sort: sortOption,
-      lean: true,
-    };
-
-    const result = await productModel.paginate(filter, options);
+    const result = await productService.list({ limit, page, sort, query });
 
     const { docs, totalPages, hasPrevPage, hasNextPage, prevPage, nextPage } =
       result;
 
     res.json({
       status: "success",
-      payload: docs,
+      payload: docs.map((p) => new ProductDTO(p)),
       totalPages,
       prevPage,
       nextPage,
@@ -60,8 +41,8 @@ export const getAllProducts = async (req, res) => {
 export const getProductById = async (req, res) => {
   try {
     const { pid } = req.params;
-    const product = await productModel.findById(pid);
-    res.json({ status: "success", data: product });
+    const product = await productService.getById(pid);
+    res.json({ status: "success", data: new ProductDTO(product) });
   } catch (error) {
     res.status(500).json({ status: "error", message: error.message });
   }
@@ -77,7 +58,7 @@ export const createProduct = async (req, res) => {
   try {
     const { title, description, price, status, stock, category, thumbnails } =
       req.body;
-    const newProduct = await productModel.create({
+    const newProduct = await productService.create({
       title,
       description,
       price,
@@ -86,7 +67,7 @@ export const createProduct = async (req, res) => {
       category,
       thumbnails,
     });
-    res.json({ status: "success", data: newProduct });
+    res.json({ status: "success", data: new ProductDTO(newProduct) });
   } catch (error) {
     res.status(500).json({ status: "error", message: error.message });
   }
@@ -103,12 +84,16 @@ export const updateProduct = async (req, res) => {
     const { pid } = req.params;
     const { title, description, price, status, stock, category, thumbnails } =
       req.body;
-    const updatedProduct = await productModel.findByIdAndUpdate(
-      pid,
-      { title, description, price, status, stock, category, thumbnails },
-      { new: true }
-    );
-    res.json({ status: "success", data: updatedProduct });
+    const updatedProduct = await productService.update(pid, {
+      title,
+      description,
+      price,
+      status,
+      stock,
+      category,
+      thumbnails,
+    });
+    res.json({ status: "success", data: new ProductDTO(updatedProduct) });
   } catch (error) {
     res.status(500).json({ status: "error", message: error.message });
   }
@@ -123,7 +108,7 @@ export const updateProduct = async (req, res) => {
 export const deleteProduct = async (req, res) => {
   try {
     const { pid } = req.params;
-    const deleted = await productModel.findByIdAndDelete(pid);
+    const deleted = await productService.delete(pid);
 
     if (!deleted) {
       return res
@@ -134,7 +119,7 @@ export const deleteProduct = async (req, res) => {
     res.json({
       status: "success",
       message: "Producto eliminado",
-      data: deleted,
+      data: new ProductDTO(deleted),
     });
   } catch (error) {
     res.status(500).json({ status: "error", message: error.message });

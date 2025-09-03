@@ -1,6 +1,6 @@
 import bcrypt from "bcrypt";
-import { mongooseSchema as User } from "../models/user.model.js";
-import { cartModel } from "../models/cart.model.js";
+import { userService } from "../services/user.service.js";
+import cartService from "../services/cart.service.js";
 
 /**
  * Sanitiza el usuario para evitar exponer datos sensibles
@@ -23,7 +23,7 @@ const sanitize = (doc) => {
  */
 export const getUsers = async (req, res) => {
   try {
-    const users = await User.find().lean();
+    const users = await userService.findAll();
     const sanitized = users.map((u) => {
       const { password, __v, ...rest } = u;
       return rest;
@@ -42,7 +42,7 @@ export const getUsers = async (req, res) => {
  */
 export const getUserById = async (req, res) => {
   try {
-    const user = await User.findById(req.params.uid);
+    const user = await userService.getById(req.params.uid);
     if (!user)
       return res
         .status(404)
@@ -68,15 +68,15 @@ export const createUser = async (req, res) => {
         message: "Campos requeridos faltantes",
       });
     }
-    const exists = await User.findOne({ email });
+    const exists = await userService.getByEmail(email);
     if (exists)
       return res
         .status(409)
         .json({ status: "conflict", message: "El email ya existe" });
 
     const hashed = bcrypt.hashSync(password, 10);
-    const newCart = await cartModel.create({ products: [] });
-    const user = await User.create({
+    const newCart = await cartService.createEmpty();
+    const user = await userService.create({
       first_name,
       last_name,
       email,
@@ -103,9 +103,7 @@ export const updateUser = async (req, res) => {
     if (updates.password) {
       updates.password = bcrypt.hashSync(updates.password, 10);
     }
-    const user = await User.findByIdAndUpdate(req.params.uid, updates, {
-      new: true,
-    });
+    const user = await userService.update(req.params.uid, updates);
     if (!user)
       return res
         .status(404)
@@ -124,7 +122,7 @@ export const updateUser = async (req, res) => {
  */
 export const deleteUser = async (req, res) => {
   try {
-    const user = await User.findByIdAndDelete(req.params.uid);
+    const user = await userService.delete(req.params.uid);
     if (!user)
       return res
         .status(404)

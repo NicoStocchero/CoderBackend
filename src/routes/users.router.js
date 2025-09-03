@@ -1,4 +1,6 @@
 import { CustomRouter } from "./router.js";
+import passport from "passport";
+import { authorize } from "../middlewares/authorization.js";
 import {
   getUsers,
   getUserById,
@@ -9,11 +11,36 @@ import {
 
 const router = new CustomRouter();
 
-// CRUD de usuarios (para pruebas/admin)
-router.get("/", getUsers);
-router.get("/:uid", getUserById);
-router.post("/", createUser);
-router.put("/:uid", updateUser);
-router.delete("/:uid", deleteUser);
+// CRUD de usuarios (solo admin)
+router.get(
+  "/",
+  passport.authenticate("current", { session: false }),
+  authorize(["admin"]),
+  getUsers
+);
+router.get(
+  "/:uid",
+  passport.authenticate("current", { session: false }),
+  authorize(["admin"]),
+  getUserById
+);
+router.post(
+  "/",
+  passport.authenticate("current", { session: false }),
+  authorize(["admin"]),
+  createUser
+);
+router.put(
+  "/:uid",
+  passport.authenticate("current", { session: false }),
+  authorize(["admin"]),
+  updateUser
+);
+router.delete(
+  "/:uid",
+  passport.authenticate("current", { session: false }),
+  authorize(["admin"]),
+  deleteUser
+);
 
 export default router.getRouter();

@@ -41,10 +41,10 @@ export const auth = (permission = []) => {
 export const passportAuth = (strategy) => (req, res, next) => {
   passport.authenticate(strategy, (err, user, info, status) => {
     if (err) return next(err);
-    if (!user)
-      return res.status(401).send({
-        error: info.message ? info.message : info.toString(),
-      });
+    if (!user) {
+      const message = info?.message || info?.toString?.() || "Unauthorized";
+      return res.status(401).json({ status: "unauthorized", message });
+    }
     req.user = user;
     return next();
   })(req, res, next);
