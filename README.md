@@ -16,7 +16,7 @@ Servidor de e-commerce con arquitectura profesional: JWT-only, Repository + Serv
 
 ## 📁 Estructura del proyecto
 
-```
+```text
 CoderBackend/
 ├── src/
 │   ├── routes/
@@ -40,28 +40,54 @@ CoderBackend/
 │   │   ├── purchase.service.js
 │   │   └── mail.service.js
 │   ├── dto/
-│   │   └── user.dto.js
+│   │   ├── user.dto.js
+│   │   ├── product.dto.js
+│   │   └── cart.dto.js
 │   ├── models/
 │   │   ├── products.model.js
 │   │   ├── cart.model.js
 │   │   ├── user.model.js
 │   │   └── ticket.model.js
 │   ├── views/
-│   │   ├── layouts/main.handlebars
-│   │   ├── partials/menu.handlebars
+│   │   ├── layouts/
+│   │   │   └── main.handlebars
+│   │   ├── partials/
+│   │   │   └── menu.handlebars
 │   │   ├── products.handlebars
 │   │   ├── productDetail.handlebars
 │   │   ├── cartDetail.handlebars
 │   │   ├── login.handlebars
-│   │   └── register.handlebars
+│   │   ├── register.handlebars
+│   │   ├── home.handlebars
+│   │   ├── profile.handlebars
+│   │   ├── realTimeProducts.handlebars
+│   │   ├── resetPassword.handlebars
+│   │   └── error.handlebars
 │   ├── middlewares/
 │   │   ├── authentication.js
-│   │   ├── ensureCart.js
-│   │   ├── authentication.js
 │   │   ├── authorization.js
-│   │   └── rateLimit.js
+│   │   ├── ensureCart.js
+│   │   ├── rateLimit.js
+│   │   ├── response.js
+│   │   └── validate.js
+│   ├── schemas/
+│   │   ├── product.schemas.js
+│   │   └── cart.schemas.js
+│   ├── constants/
+│   │   └── roles.js
+│   ├── utils/
+│   │   └── utils.js
+│   ├── data/
+│   │   ├── products.json
+│   │   └── carts.json
+│   ├── managers/
+│   │   ├── ProductManager.js
+│   │   └── CartManager.js
+│   ├── scripts/
+│   │   └── importProducts.js
 │   └── config/
 │       ├── database.js
+│       ├── env.js
 │       └── passport.config.js
 ├── public/
 │   ├── js/
@@ -70,6 +96,11 @@ CoderBackend/
 │   │   ├── cart.js
 │   │   └── realtime.js
 │   └── css/
+├── test/
+│   ├── carts.test.js
+│   ├── sessions.test.js
+│   ├── products.test.js
+│   └── e2e.test.js
 ├── app.js
 ├── README.Backend1.md
 └── README.md (este archivo)
@@ -97,7 +128,7 @@ SMTP_PASS=password
 MAIL_FROM="Ecommerce <no-reply@example.com>"
 ```
 
-2. Instalar deps y correr:
+1. Instalar deps y correr:
 
 ```bash
 npm install
@@ -107,17 +138,23 @@ npm run dev
 ### 🔐 Generar y configurar JWT_SECRET
 
 - Node.js:
+
   ```bash
   node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
   ```
+
 - OpenSSL:
+
   ```bash
   openssl rand -hex 48
   ```
+
 - Agregalo a tu `.env` en una sola línea:
+
   ```env
   JWT_SECRET=EL_VALOR_GENERADO
   ```
+
 - Tips: no uses comillas; si lo cambiás, los tokens previos dejan de ser válidos; tras editar `.env`, reiniciá el servidor (en nodemon: `rs`).
 
 ---
@@ -126,8 +163,11 @@ npm run dev
 
 - `repositories/*`: acceso a datos (Mongoose encapsulado)
 - `services/*`: lógica de negocio (productos, carritos, usuarios, compras, mailing)
-- `dto/user.dto.js`: salida segura de usuario
+- `dto/*.dto.js`: DTOs para salida segura (usuario, producto, carrito)
 - `middlewares/authorization.js`: control por roles
+- `middlewares/validate.js`: validación de datos con Joi
+- `schemas/*.schemas.js`: esquemas de validación
+- `constants/roles.js`: constantes de roles
 - `models/ticket.model.js`: tickets de compra
 - `services/purchase.service.js`: verificación de stock y generación de tickets
 
